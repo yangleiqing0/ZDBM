@@ -122,12 +122,17 @@ class EnvTest:
             content = RequestMethod().to_requests(self.request_method, 'env/add', data=data)
             result = json.loads(content)
             print(result['data']['env'])
-        if self.params['envName'] != MDB1_NAME:
-            NEED_PARAMETER.update({self.params['envName'] + '_database_id': result['data']['env']['softwares'][0]['database'][0]['id'],
+        if self.params['envName'] not in  [MDB1_NAME, MDB5_NAME]:
+            NEED_PARAMETER.update({
                                self.params['envName'] + '_node_id': result['data']['env']['nodes'][0]['id'],
                                self.params['envName'] + '_id': result['data']['env']['id'],
                                self.params['envName'] + '_softwares_id': result['data']['env']['softwares'][0]['id']
                                })
+            for l in range(len(result['data']['env']['softwares'][0]['database'])):
+                NEED_PARAMETER.update(
+                    {self.params['envName'] + '_' + result['data']['env']['softwares'][0]['database'][l]['dbName'] +
+                     '_database_id': result['data']['env']['softwares'][0]['database'][l]['id']}
+                )
         else:
             NEED_PARAMETER.update(
                 {
@@ -160,16 +165,15 @@ class EnvTest:
 "tacticID":2,
 "mdbEnvID":%s,
 "mdbSoftwareID":%s}
-        """ % (NEED_PARAMETER[self.params['envName'] + '_database_id'], OR11204_ORACLE_USER, OR11204_ORACLE_PASSWORD,
+        """ % (NEED_PARAMETER[self.params['envName'] + '_' + self.params['dbName']+'_database_id'], self.params['ORACLE_USER'], self.params['ORACLE_PASSWORD'],
                NEED_PARAMETER[self.params['envName'] + '_node_id'],
-               NEED_PARAMETER[MDB1_NAME + '_id'], NEED_PARAMETER[MDB1_NAME + '_softwares_id'],
-
+               NEED_PARAMETER[self.params['MDB_NAME'] + '_id'], NEED_PARAMETER[self.params['MDB_NAME'] + '_softwares_id'],
                )
 
         content = RequestMethod().to_requests(self.request_method, 'source/add', data=data)
         result = json.loads(content)
         NEED_PARAMETER.update({
-            self.params['envName'] + '_source_id': result['data']['source']['id']
+            self.params['envName'] + '_' + self.params['dbName'] + '_source_id': result['data']['source']['id']
 
         })
         sql = 'select job_status from zdbm_jobs where env_id=%s order by id desc limit 1' % (NEED_PARAMETER[self.params['envName'] + '_id'])

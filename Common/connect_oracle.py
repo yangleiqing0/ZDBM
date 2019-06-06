@@ -5,7 +5,9 @@ import cx_Oracle  # 引用模块cx_Oracle
 class ConnOracle:
 
     def __init__(self, user=MDB1_ORACLE_USER, pwd=MDB1_ORACLE_PASSWORD, ip=MDB1_IP, port=MDB1_ORACLE_PORT,oracle_name=None):
-        self.conn = cx_Oracle.connect(user, pwd, ip+':'+port+'/'+oracle_name)  # 连接数据库
+        to = ip+':'+port+'/'+oracle_name
+        print('要连接的路径:', to, '用户:', user)
+        self.conn = cx_Oracle.connect(user, pwd, to)  # 连接数据库
         self.c = self.conn.cursor()  # 获取cursor
 
     def selcet_oracle(self, sql):
@@ -39,9 +41,27 @@ end;"""
         sql2 = "insert into DEPT values(1,'%s')" % timestamp
         self.operate_oracle(sql2)
 
+    def insert_dept(self):
+        sql = """declare
+              num   number;
+        begin
+            select count(1) into num from user_tables where table_name = upper('dept') ;
+            if num = 0 then
+                execute immediate 'create table DEPT(id number(10),content varchar(20))' ;
+            end if;
+        end;"""
+        self.operate_oracle(sql)
+        timestamp = str(time.strftime("%Y.%m.%d %H.%M.%S")).replace(' ', '.').replace('.', '')
+        print(timestamp)
+        sql2 = "insert into DEPT values(2,'%s')" % timestamp
+        self.operate_oracle(sql2)
+
     def __del__(self):
-        self.c.close()
-        self.conn.close()  # 关闭连接
+        try:
+            self.c.close()
+            self.conn.close()  # 关闭连接
+        except Exception as e:
+            print(e)
 
 if __name__ == '__main__':
     ConnOracle(oracle_name='vdb_D6QJ').new_table()
