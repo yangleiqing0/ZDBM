@@ -78,6 +78,7 @@ class Driver:
         m = 0
         with open(r'..\Data\%s.txt' % TEST_REPORT_TXT_NAME, 'r', encoding='utf-8') as f:
             result = f.readlines()
+            result = result[::-1]
         for res in result:
             res = eval(res)
             if res['t_result'] == '测试成功':
@@ -109,5 +110,5 @@ class Driver:
 
 
 if __name__ == "__main__":
-    Driver().get_data()
-    # Driver().to_report()
+    # Driver().get_data()
+    Driver().to_report()

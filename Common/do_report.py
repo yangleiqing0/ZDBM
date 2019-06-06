@@ -9,7 +9,7 @@ class Report:
     # 设置居中
 
     def get_format_center(self,wb,num=1):
-        return wb.add_format({'align': 'center','valign': 'vcenter','border':num})
+        return wb.add_format({'align': 'center','valign': 'vcenter','border':num,'text_wrap':1})
 
     def set_border_(self,wb, num=1):
         return wb.add_format({}).set_border(num)
@@ -99,19 +99,19 @@ class Report:
         self.worksheet2.set_column("A:A", 16)
         self.worksheet2.set_column("B:B", 16)
         self.worksheet2.set_column("C:C", 25)
-        self.worksheet2.set_column("D:D", 20)
-        self.worksheet2.set_column("E:E", 30)
+        self.worksheet2.set_column("D:D", 30)
+        self.worksheet2.set_column("E:E", 25)
         self.worksheet2.set_column("F:F", 35)
         self.worksheet2.set_column("G:G", 20)
         self.worksheet2.set_column("H:H", 20)
-        self.worksheet2.set_column("I:I", 16)
+        self.worksheet2.set_column("I:I", 11)
         for i in range(1,(row+2)):
-            self.worksheet2.set_row(i, 30)
+            self.worksheet2.set_row(i, 40)
         self.worksheet2.merge_range('A1:I1', '测试详情', self.get_format(self.workbook, {'bold': True, 'font_size': 18 ,'align': 'center','valign': 'vcenter','bg_color': '#70DB93', 'font_color': '#ffffff'}))
         self.write_center(self.worksheet2, "A2", '模块名', self.workbook)
         self.write_center(self.worksheet2,"B2", '类名', self.workbook)
         self.write_center(self.worksheet2,"C2", '方法名', self.workbook)
-        self.write_center(self.worksheet2,"D2", '用例描述', self.workbook)
+        self.write_center(self.worksheet2, "D2", '用例描述', self.workbook)
         self.write_center(self.worksheet2,"E2", '预期结果', self.workbook)
         self.write_center(self.worksheet2,"F2", '实际值', self.workbook)
         self.write_center(self.worksheet2,"G2", '数据库原值', self.workbook)
