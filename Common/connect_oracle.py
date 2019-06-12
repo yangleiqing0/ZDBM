@@ -4,13 +4,14 @@ import cx_Oracle  # 引用模块cx_Oracle
 
 class ConnOracle:
 
-    def __init__(self, user=MDB1_ORACLE_USER, pwd=MDB1_ORACLE_PASSWORD, ip=MDB1_IP, port=MDB1_ORACLE_PORT,oracle_name=None):
+    def __init__(self, user=MDB1_ORACLE_USER, pwd=MDB1_ORACLE_PASSWORD, ip=MDB1_IP, port=MDB1_ORACLE_PORT,oracle_name=None, mode=None):
         to = ip+':'+port+'/'+oracle_name
-        print('要连接的路径:', to, '用户:', user)
-        self.conn = cx_Oracle.connect(user, pwd, to)  # 连接数据库
+        print('要连接的路径:', to, '用户:', user, '密码: ', pwd)
+        self.conn = cx_Oracle.connect(user, pwd, to, mode)  # 连接数据库
         self.c = self.conn.cursor()  # 获取cursor
 
     def selcet_oracle(self, sql):
+        print('要查询的语句为: ', sql)
         self.c.execute(sql)  # 使用cursor进行各种操作
         r = self.c.fetchall()
         print('数据库获取到的: ', r[0])
@@ -21,8 +22,13 @@ class ConnOracle:
         return r[0]
 
     def operate_oracle(self, sql):
+        print('要执行的sql语句为 : ', sql)
         self.c.execute(sql)
         self.conn.commit()
+
+    def exeute_oracle(self, sql):
+        print('要执行的sql语句为 : ', sql)
+        self.c.execute(sql)
 
     def new_table(self):
         sql = """declare

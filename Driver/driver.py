@@ -15,8 +15,8 @@ from ZDBM.Common.install_oracle import InstallOracle
 class Driver:
 
     def __init__(self):
-        self.tables = glob.glob(r'../Data/*main_test.xls')
-
+        # self.tables = glob.glob(r'../Data/*main_test.xls')
+        self.tables = glob.glob(r'../Data/*1.0.2_test.xls')
     @staticmethod
     def install_all():
         # ComJenkins().build_job()    # 触发jenkins自动打包
@@ -110,5 +110,5 @@ class Driver:
 
 
 if __name__ == "__main__":
-    # Driver().get_data()
-    Driver().to_report()
+    Driver().get_data()
+    # Driver().to_report()

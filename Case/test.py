@@ -1,4 +1,26 @@
-# import paramiko
+import paramiko
+import time
+trans = paramiko.Transport(('192.168.12.1', 1521))    # 【坑1】 如果你使用 paramiko.SSHClient() cd后会回到连接的初始状态
+trans.start_client()
+# 用户名密码方式
+trans.auth_password(username='sys', password='root')
+# 打开一个通道
+channel = trans.open_session()
+channel.settimeout(7200)
+# 获取一个终端
+channel.get_pty()
+# 激活器
+channel.invoke_shell()
+cmd = 'select * from tab'
+# 发送要执行的命令
+channel.send(cmd)
+while True:
+        time.sleep(0.2)
+        rst = channel.recv(1024)
+        rst = rst.decode('utf-8')
+        print(rst)
+channel.close()
+trans.close()
 # ssh = paramiko.SSHClient()
 # # 設定自動加入 遠端主機的 SSH Key
 # ssh.set_missing_host_key_policy(paramiko.AutoAddPolicy())

@@ -4,7 +4,6 @@ import datetime
 from ZDBM.Common.Request_method import RequestMethod
 from ZDBM.Common.connect_mysql import ConnMysql
 from ZDBM.Common.configure import *
-from ZDBM.Common.clear_env import ClearEnv
 from ZDBM.Common.CLEARE_ENV import ClearEnv as Ce
 from ZDBM.Case.DeleteMySql import DeleteWords
 
@@ -18,7 +17,7 @@ class EnvTest:
 
     def test_env_test(self):
         # 测试目标主机连通性
-        Ce(IP).login()
+        # Ce(IP).login()
         data = """
         {
         "ip":"%s",
@@ -171,6 +170,7 @@ class EnvTest:
                )
 
         content = RequestMethod().to_requests(self.request_method, 'source/add', data=data)
+        yield content
         result = json.loads(content)
         NEED_PARAMETER.update({
             self.params['envName'] + '_' + self.params['dbName'] + '_source_id': result['data']['source']['id']
@@ -178,7 +178,7 @@ class EnvTest:
         })
         sql = 'select job_status from zdbm_jobs where env_id=%s order by id desc limit 1' % (NEED_PARAMETER[self.params['envName'] + '_id'])
         content_sql = 'select err_msg from zdbm_jobs where env_id="%s" order by id desc limit 1' % (NEED_PARAMETER[self.params['envName'] + '_id'])
-        print(sql,content_sql)
+        print(sql, content_sql)
         archive_time = 10 * 60 # 5分钟
         times = 10*60
         status_sql = 'select source_status from zdbm_orcl_source_dbs where env_id=%s order by id desc' % (NEED_PARAMETER[self.params['envName'] + '_id'])
