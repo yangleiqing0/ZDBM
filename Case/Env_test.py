@@ -170,7 +170,6 @@ class EnvTest:
                )
 
         content = RequestMethod().to_requests(self.request_method, 'source/add', data=data)
-        yield content
         result = json.loads(content)
         NEED_PARAMETER.update({
             self.params['envName'] + '_' + self.params['dbName'] + '_source_id': result['data']['source']['id']

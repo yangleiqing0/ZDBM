@@ -15,8 +15,9 @@ from ZDBM.Common.install_oracle import InstallOracle
 class Driver:
 
     def __init__(self):
+        self.tables = glob.glob(r'../Data/*test.xls')
         # self.tables = glob.glob(r'../Data/*main_test.xls')
-        self.tables = glob.glob(r'../Data/*1.0.2_test.xls')
+        # self.tables = glob.glob(r'../Data/*1.0.2_test.xls')
     @staticmethod
     def install_all():
         # ComJenkins().build_job()    # 触发jenkins自动打包
@@ -34,6 +35,7 @@ class Driver:
                 # for i in range(22, 30):
                 for i in range(1, sheet.nrows):
                     lis = sheet.row_values(i)
+                    print(lis)
                     print(lis[5])
                     lis[6] = lis[6].split(',')
                     assert_method, hode_result = lis[7].split(':', 1)
@@ -50,6 +52,7 @@ class Driver:
                         value = method()
                         # except Exception as e:
                         #     value = e
+                        # print(value)
                         actualresult = value['actualresult']
                         # print(actualresult, hode_result)
                         # print('试试',value)
