@@ -8,4 +8,7 @@ class ClearData:
 
     @staticmethod
     def clear_txt():
-        os.remove(r'../Data/ZDBM接口测试结果.txt')
+        os.remove(r'../Data/ZDBM_test_result.txt')
+
+if __name__ == '__main__':
+    ClearData().clear_txt()

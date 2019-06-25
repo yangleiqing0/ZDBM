@@ -116,7 +116,7 @@ class EnvTest:
             print(result['data']['env'])
         except Exception as e:
             print("清理环境报错: ", e)
-            DeleteWords().select_tables()
+            # DeleteWords().select_tables()
             old_database_value = ConnMysql().select_mysql(query_env_id_sql)[0]
             content = RequestMethod().to_requests(self.request_method, 'env/add', data=data)
             result = json.loads(content)

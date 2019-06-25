@@ -5,14 +5,16 @@ from ZDBM.Common.configure import *
 RETAIN_TABLES = [
     'zdbm_zpools','zdbm_zpool_disks', 'zdbm_users','zdbm_user_tokens','zdbm_task_weights','zdbm_tactics',
     'zdbm_system_setups','zdbm_system_components','zdbm_server_oracles','zdbm_license_infos','zdbm_codes',
-    # 'zdbm_cell_network_cards', 'zdbm_cell_services', 'zdbm_cells', 'zdbm_virtual_ips', 'zdbm_virtual_machines',
-    # 'zdbm_virtual_networks', 'zdbm_vm_templates'
+    'zdbm_cell_network_cards', 'zdbm_cell_services', 'zdbm_cells',
+    # 'zdbm_virtual_ips',
+    # 'zdbm_virtual_machines',
+    'zdbm_virtual_networks', 'zdbm_vm_templates'
                  ]
 
 
 class DeleteWords:
     def __init__(self):
-        self.host = '192.168.12.201'
+        self.host = '192.168.12.50'
         # self.host = IP
         self.linux_port = 22
         self.linux_user = 'root'

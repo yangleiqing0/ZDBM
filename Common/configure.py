@@ -39,9 +39,9 @@ ZDBM_PACKAGE_IP = '192.168.12.10'
 ZDBM_PACKAGE_PORT = '22222'
 ZDBM_PACKAGE_PWD = 'root1234'
 # ZDBM_PACKAGE_NAME = '/soft/zdbm/zdbm-201905151636-v1.0.13.5.tar.gz'
-# ZDBM_PACKAGE_NAME = '/var/lib/jenkins/workspace/Zdbm/zdbm-*.tar.gz'
+ZDBM_PACKAGE_NAME = '/var/lib/jenkins/workspace/Zdbm/zdbm-*.tar.gz'
 # ZDBM_PACKAGE_NAME = '/soft/zdbm/zdbm-201905301604-v1.0.10.12.tar.gz'
-ZDBM_PACKAGE_NAME = '/var/lib/jenkins/workspace/zdbm_auto_page/zdbm-*.tar.gz'
+# ZDBM_PACKAGE_NAME = '/var/lib/jenkins/workspace/zdbm_auto_page/zdbm-*.tar.gz'
 ZDBM_PACKAGE_NAME_TAR = ZDBM_PACKAGE_NAME.split('/')[-1]
 MY_JENKINS_NAME = 'myjenkins.tar'
 # test_license_update_name

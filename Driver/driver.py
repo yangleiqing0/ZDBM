@@ -21,11 +21,11 @@ class Driver:
     @staticmethod
     def install_all():
         # ComJenkins().build_job()    # 触发jenkins自动打包
-        Initialize().install_zdbm()   # 自动进行zdbm预安装和安装
+        # Initialize().install_zdbm()   # 自动进行zdbm预安装和安装
         InstallOracle().install_oracle()   # 自动从12.10将oracle包scp到目标服务器的/u01
 
     def get_data(self):
-        # self.install_all()
+        self.install_all()
         # print(self.tables)
         for table in self.tables:
             print(table)
@@ -109,7 +109,7 @@ class Driver:
     def to_report(self):
         self.test_report()
         print('测试完毕，测试报告生成完毕')
-        # ClearData().clear_txt()
+        ClearData().clear_txt()
 
 
 if __name__ == "__main__":

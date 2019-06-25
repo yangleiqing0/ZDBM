@@ -1,13 +1,14 @@
 import requests
 import json
 import time
+from ZDBM.Common.configure import *
 from ZDBM.Common.connect_mysql import ConnMysql
 requests.packages.urllib3.disable_warnings()
 
 
 class ClearEnv:
 
-    def __init__(self, ip):
+    def __init__(self, ip=IP):
         self.SERVER_IP = ip
         self.ip = 'https://{}:40010/api/'.format(self.SERVER_IP)
         self.session = requests.session()

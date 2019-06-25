@@ -74,6 +74,7 @@ class SourceDbs:
 
     def env_lsnrctl(self):
         # 环境的监听启动状态
+        Ce().login()
         lsnrctl_status_com = '%s && lsnrctl %s' % (ORACLE_HOME_COMMAND, self.params['lsnrctl_status'])
         GetLicense().linux_command(com=lsnrctl_status_com, ip=self.params['ip'], username=ORACLE_USER,
                                    password=ORACLE_PWD)
@@ -82,3 +83,4 @@ class SourceDbs:
         return {
             'actualresult': content
         }
+
