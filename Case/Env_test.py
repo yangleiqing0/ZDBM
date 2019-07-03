@@ -112,6 +112,7 @@ class EnvTest:
         old_database_value = ConnMysql().select_mysql(query_env_id_sql)[0]
         content = RequestMethod().to_requests(self.request_method, 'env/add', data=data)
         result = json.loads(content)
+        print('ENV ADD result is :', result)
         try:
             print(result['data']['env'])
         except Exception as e:
@@ -121,7 +122,7 @@ class EnvTest:
             content = RequestMethod().to_requests(self.request_method, 'env/add', data=data)
             result = json.loads(content)
             print(result['data']['env'])
-        if self.params['envName'] not in  [MDB1_NAME, MDB5_NAME]:
+        if self.params['envName'] not in  [MDB1_NAME, MDB5_NAME, MDB6_IP]:
             NEED_PARAMETER.update({
                                self.params['envName'] + '_node_id': result['data']['env']['nodes'][0]['id'],
                                self.params['envName'] + '_id': result['data']['env']['id'],
