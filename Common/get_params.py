@@ -1,10 +1,11 @@
+import re
 from ZDBM.Common.configure import *
 from ZDBM.Common.rand_name import RangName
 
 
 class GetParams:
 
-    def __init__(self, params_dict, lis=None):
+    def __init__(self, params_dict=None, lis=None):
         self.params_dict = params_dict
         self.lis = lis
 
@@ -26,8 +27,18 @@ class GetParams:
         return self.params_dict
         # [(self.params_dict.update({item.split('=')[0]: (item.split('=')[1])})) for item in lis[6] if '=' in item]
 
+    @staticmethod
+    def get_value(i):
+        try:
+            i = eval(i)
+        except Exception:
+            pass
+        return i
 
-
+    def analysis_describe(self, string):
+        really_value = ''.join([str(self.get_value(i)) for i in re.split(r'\${|}', string)])
+        print('用例介绍: ', really_value)
+        return really_value
 
 if __name__ == '__main__':
     GetParams().analysis_param(account=15155492421)

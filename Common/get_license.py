@@ -13,7 +13,7 @@ class GetLicense:
 
 
     def write_key(self):
-        self.ssh.connect(ZDBM_LICENSE_COMPANY_IP, port=MDB2_PORT, username=ZDBM_LICENSE_ROOT, password=ZDBM_LICENSE_PASSWORD,
+        self.ssh.connect(ZDBM_LICENSE_COMPANY_IP, port=ZDBM_LICENSE_PORT, username=ZDBM_LICENSE_ROOT, password=ZDBM_LICENSE_PASSWORD,
                          allow_agent=False, look_for_keys=False)
         # 設定連接 ssh 的主機名稱, 使用者名稱, ssh 私鑰路徑
         self.ssh.exec_command("rm -rf /usr/local/zdbm-license/zdbm_license.dat")

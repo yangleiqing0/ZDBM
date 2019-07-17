@@ -15,9 +15,9 @@ class AutoInstall:
         GetLicense().linux_command('cd /opt && rm -rf auto_install.sh %s ' % ZDBM_PACKAGE_NAME_TAR)
         print('清除/opt下的文件成功')
         time.sleep(1)
-        GetLicense().linux_command('sshpass -p %s scp -o StrictHostKeychecking=no '
+        GetLicense().linux_command('sshpass  -p %s scp -P %s -o StrictHostKeychecking=no '
                                    '%s /soft/auto_install.sh root@%s:/opt' %
-                                   (ROOT_PASSWORD, ZDBM_PACKAGE_NAME, IP), ip=ZDBM_PACKAGE_IP, port=ZDBM_PACKAGE_PORT,password=ZDBM_PACKAGE_PWD)
+                                   (ROOT_PASSWORD, SSH_PORT, ZDBM_PACKAGE_NAME, IP), ip=ZDBM_PACKAGE_IP, port=ZDBM_PACKAGE_PORT,password=ZDBM_PACKAGE_PWD)
         print('将安装脚本和安装包放入目标服务器成功')
         time.sleep(15)
         print('开始进行预安装')

@@ -171,7 +171,7 @@ class VdbTest:
     def test_v2p(self):
         # 通过vdb全量恢复源库
         # 先创建路径
-        GetLicense().linux_command('mkdir -p /home/oracle/v2p')
+        GetLicense().linux_command('mkdir -p /home/oracle/v2p && rm -rf /home/oracle/v2p/*')
         # 给予此文件夹添加所有人和组
         GetLicense().linux_command('chown -R oracle:oinstall /home/oracle/v2p')
         # 通过test_recovery_preset_by_vdb方法获得提交的参数
@@ -185,7 +185,7 @@ class VdbTest:
                          json.loads(parameters['actualresult'])['data']['canParameters']
         print('parameters:', parameters)
         data = '{"vdbID":%s,"targetSoftwareID":%s,"targetDir":"%s","parameters":%s}' % \
-               (NEED_PARAMETER['vdb'+'_' + self.params['dbName']+'_id'], NEED_PARAMETER[MDB1_NAME+'_softwares_id'],MDB1_V2P_PATH,str(parameters).replace('\'', '\"'))
+               (NEED_PARAMETER['vdb'+'_' + self.params['dbName']+'_id'], NEED_PARAMETER[self.params['envName']+'_softwares_id'],MDB1_V2P_PATH,str(parameters).replace('\'', '\"'))
         print('data:', data)
         content = RequestMethod().to_requests(self.request_method, 'recovery/full/by/vdb', data=data)
         job_status_sql = 'select job_status from zdbm_jobs where vdb_name="%s" and job_type="RECOVERY_V2P" and deleted_at is null order by id desc' % \

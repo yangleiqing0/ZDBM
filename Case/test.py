@@ -1,11 +1,16 @@
+import re
+ac = 1
+ab = 2
+a = '123123a${ac},1dwqdqw${ab}'
+def get_value(i):
+    try:
+        i = eval(i)
 
-import sys
-__import__('ZDBM.Case.'+'Env_test')
-m = sys.modules['ZDBM.Case.'+'Env_test']
-t = getattr(m, 'EnvTest')
-method = getattr(t({'request_method': 'post'}), 'test_env_database_add')
-value = method()
-# except Exception as e:
-#     value = e
-# print(value)
-actualresult = value['actualresult']
+    except Exception:
+        pass
+    return i
+
+
+aa = ''.join([str(get_value(i)) for i in re.split('\${|}',a)])
+
+print(aa)

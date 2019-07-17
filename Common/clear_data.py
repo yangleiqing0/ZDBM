@@ -12,7 +12,11 @@ class ClearData:
 
     @staticmethod
     def clear_xlsx():
-        os.remove(r'../Data/ZDBM_test_report.xlsx')
+        try:
+            os.remove(r'../Data/ZDBM_test_report.xlsx')
+        except Exception:
+            pass
+
 
 if __name__ == '__main__':
     ClearData().clear_txt()

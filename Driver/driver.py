@@ -42,6 +42,7 @@ class Driver:
                     assert_method, hode_result = lis[7].split(':', 1)
                     params_dict = {'request_method': lis[3]}   # 将请求的方法加入param_dict字典
                     params_dict = GetParams(params_dict, lis[6][0]).analysis_param()  # 通过解析参数得到参数字典
+                    t_description = GetParams().analysis_describe(lis[4])  # 对备注进行解析
                     print("params_dict:", params_dict)
                     print("NEED_PARAMETER:", NEED_PARAMETER)
                     if lis[9] != 'n':
@@ -65,7 +66,7 @@ class Driver:
                                               ).assert_database_result()
                         print(result)
                         with open(r'..\Data\%s.txt' % TEST_REPORT_TXT_NAME, 'a+', encoding='utf-8') as f:
-                            f.write(str({'t_pkg': lis[0], 't_object': lis[1], 't_method': lis[2], 't_description': lis[4],
+                            f.write(str({'t_pkg': lis[0], 't_object': lis[1], 't_method': lis[2], 't_description': t_description,
                                          't_hope': assert_method+":" + hode_result
                                         , 't_actual': actualresult, 't_result': result,
                                          'old_database_value': value.get('old_database_value', ' '),

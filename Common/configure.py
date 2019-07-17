@@ -5,21 +5,23 @@ TEST_REPORT_TXT_NAME = 'ZDBM_test_result'
 TEST_TITLE_NAME = 'ZDBM接口测试'
 # 用于分割txt内的内容
 # 服务器配置
-IP = '192.168.12.201'
+IP = '192.168.12.41'
 PORT = '40010'
 GATEWAY = '61.139.2.69'
 USERNAME = 'yanglei'
 PASSWORD = 'yanglei1'
-SSH_PORT = '22'
+SSH_PORT = '22222'
+SERVER_NAME = 'm12.41'
 ROOT_NAME = 'root'
-ROOT_PASSWORD = 'root123'
+ROOT_PASSWORD = 'root1234'
 NEWPASSWORD = 'yanglei2'
 SCR_PASSWORD = '$2a$10$YspahrSiuR.w8HShr4mgLOqz604DOGw/zFmRZrlONcJyrLhEYWt1m'
 ORACLE_USER = 'oracle'
 ORACLE_PWD = ORACLE_USER
 
 # 默认存放zdbm.license在80服务器上
-ZDBM_LICENSE_COMPANY_IP = '192.168.12.80'
+ZDBM_LICENSE_COMPANY_IP = '192.168.12.10'
+ZDBM_LICENSE_PORT = '22222'
 ZDBM_LICENSE_ROOT = 'root'
 ZDBM_LICENSE_PASSWORD = 'root1234'
 # 个人yanglei账户信息
@@ -32,7 +34,7 @@ YL_PHONE = '18200585160'
 
 # ZDBM版本信息
 # ZDBM_VERSION = '1.0.12'
-ZDBM_VERSION = '1.0.13'
+ZDBM_VERSION = '1.0.14'
 
 # 存放zdbm包的地址
 ZDBM_PACKAGE_IP = '192.168.12.10'
@@ -122,11 +124,12 @@ MDB5_IP = '192.168.12.201'
 MDB5_NAME = 'm12.201'
 MDB5_USER = 'oracle'
 MDB5_PORT = 22
-# 目标中间环境 192.168.32.116
-MDB6_IP = '192.168.32.116'
-MDB6_NAME = 'm32.116'
+# 目标中间环境 192.168.12.41
+MDB6_IP = '192.168.12.41'
+MDB6_NAME = 'm12.41'
 MDB6_USER = 'oracle'
 MDB6_PORT = 22222
+
 # toolpath默认为/opt/zdbm
 TOOLPATH = '/opt/zdbm'
 ORACLE_TOOLPATH = '/home/oracle/zdbm'

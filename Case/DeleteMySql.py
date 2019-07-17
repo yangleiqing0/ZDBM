@@ -14,7 +14,7 @@ RETAIN_TABLES = [
 
 class DeleteWords:
     def __init__(self):
-        self.host = '192.168.12.50'
+        self.host = '192.168.12.201'
         # self.host = IP
         self.linux_port = 22
         self.linux_user = 'root'

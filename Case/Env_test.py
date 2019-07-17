@@ -122,7 +122,7 @@ class EnvTest:
             content = RequestMethod().to_requests(self.request_method, 'env/add', data=data)
             result = json.loads(content)
             print(result['data']['env'])
-        if self.params['envName'] not in  [MDB1_NAME, MDB5_NAME, MDB6_IP]:
+        if 'm' not in self.params['envName'] :
             NEED_PARAMETER.update({
                                self.params['envName'] + '_node_id': result['data']['env']['nodes'][0]['id'],
                                self.params['envName'] + '_id': result['data']['env']['id'],
