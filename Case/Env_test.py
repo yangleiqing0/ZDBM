@@ -161,6 +161,8 @@ class EnvTest:
 {"databaseID":%s,
 "username":"%s",
 "password":"%s",
+"archiveZpoolID":1,
+"datafileZpoolID":2,
 "parallels":[{"nodeID":%s,"parallel":4}],
 "tacticID":2,
 "mdbEnvID":%s,
@@ -172,6 +174,7 @@ class EnvTest:
 
         content = RequestMethod().to_requests(self.request_method, 'source/add', data=data)
         result = json.loads(content)
+        print("result = ", result)
         NEED_PARAMETER.update({
             self.params['envName'] + '_' + self.params['dbName'] + '_source_id': result['data']['source']['id']
 
@@ -181,7 +184,7 @@ class EnvTest:
         print(sql, content_sql)
         archive_time = 10 * 60 # 5分钟
         times = 10*60
-        status_sql = 'select source_status from zdbm_orcl_source_dbs where env_id=%s order by id desc' % (NEED_PARAMETER[self.params['envName'] + '_id'])
+        status_sql = 'select count(*) from zdbm_orcl_source_db_backups where source_id="%s"' % (NEED_PARAMETER[self.params['envName'] + '_' + self.params['dbName'] + '_source_id'])
         time.sleep(2)
         while 1:
             result = ConnMysql().select_mysql(sql)[0]
@@ -197,11 +200,8 @@ class EnvTest:
                 time.sleep(2)
                 while times > 0:
                     status = ConnMysql().select_mysql(status_sql)[0]
-                    print("归档状态：", status,'时间过去：', 600-times, '秒')
-                    if status == 'NORMAL':
-                        break
-                    elif times == 0:
-                        content = '归档状态异常，5分钟未恢复'
+                    print("归档状态：", status, '时间过去：', 600-times, '秒')
+                    if status == 1:
                         break
                     times -= 2
                     time.sleep(2)
@@ -214,7 +214,6 @@ class EnvTest:
         return {
             'actualresult': content
         }
-
 
 
 if __name__ == '__main__':

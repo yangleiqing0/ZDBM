@@ -12,28 +12,30 @@ from ZDBM.Common.command_jenkins import ComJenkins
 from ZDBM.Common.initialize import Initialize
 from ZDBM.Common.install_oracle import InstallOracle
 
+
 class Driver:
 
     def __init__(self):
         # self.tables = glob.glob(r'../Data/*test.xls')
         self.tables = glob.glob(r'../Data/*main_test.xls')
         # self.tables = glob.glob(r'../Data/*1.0.2_test.xls')
+
     @staticmethod
     def install_all():
         # ComJenkins().build_job()    # 触发jenkins自动打包
-        Initialize().install_zdbm()   # 自动进行zdbm预安装和安装
+        # Initialize().install_zdbm()   # 自动进行zdbm预安装和安装
         InstallOracle().install_oracle()   # 自动从12.10将oracle包scp到目标服务器的/u01
 
     def get_data(self):
         ClearData().clear_xlsx()
-        # self.install_all()
+        self.install_all()
         # print(self.tables)
         for table in self.tables:
             print(table)
             book = xlrd.open_workbook(table)
             for s in range((len(book.sheets()))):
                 sheet = book.sheets()[s]
-                # for i in range(22, 30):
+                # for i in range(25, 30):
                 for i in range(1, sheet.nrows):
                     lis = sheet.row_values(i)
                     print(lis)

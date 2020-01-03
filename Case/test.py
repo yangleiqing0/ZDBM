@@ -1,16 +1,31 @@
-import re
-ac = 1
-ab = 2
-a = '123123a${ac},1dwqdqw${ab}'
-def get_value(i):
-    try:
-        i = eval(i)
-
-    except Exception:
-        pass
-    return i
+class Dict(dict):
+    __setattr__ = dict.__setitem__
 
 
-aa = ''.join([str(get_value(i)) for i in re.split('\${|}',a)])
+def dict_to_object(dictObj):
+    if not isinstance(dictObj, dict):
+        return dictObj
+    inst = Dict()
+    for key, value in dictObj.items():
+        inst[key] = dict_to_object(value)
+    return inst
 
-print(aa)
+def object_to_dict(object):
+    dic = {}
+    for column in object.__table__.columns:
+        dic[column.name] = str(getattr(object, column.name))
+
+    return dic
+
+# a= {"a":1,'b':2}
+# a = dict_to_object(a)
+# a = object_to_dict(a)
+# print(type(a))
+
+# from datetime import datetime
+# # print('时间：(%Y-%m-%d %H:%M:%S %f): ' , datetime.now().strftime( '%Y%m%d%H%M%S' ))
+# print(datetime.now())
+
+import xlsxwriter
+xlsx = xlsxwriter.Workbook('a.xlsx')
+xlsx.close()

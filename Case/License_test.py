@@ -29,7 +29,7 @@ class LicenseTest:
         content = RequestMethod().to_requests(self.request_method, 'license/update/name', data=data)
         new_database_value = ConnMysql().select_mysql(sql)[0]
         return {
-                'actualresult': content, 'name': name, 'old_database_value': 'name:'+ old_database_value,
+                'actualresult': content, 'name': name, 'old_database_value': 'name:' + old_database_value,
                 'new_database_value': 'name:'+new_database_value, 'database_assert_method': False
                 }
 

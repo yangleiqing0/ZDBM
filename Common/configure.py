@@ -5,15 +5,15 @@ TEST_REPORT_TXT_NAME = 'ZDBM_test_result'
 TEST_TITLE_NAME = 'ZDBM接口测试'
 # 用于分割txt内的内容
 # 服务器配置
-IP = '192.168.12.41'
+IP = '192.168.12.201'
 PORT = '40010'
 GATEWAY = '61.139.2.69'
 USERNAME = 'yanglei'
 PASSWORD = 'yanglei1'
-SSH_PORT = '22222'
-SERVER_NAME = 'm12.41'
+SSH_PORT = '22'
+SERVER_NAME = 'm12.201'
 ROOT_NAME = 'root'
-ROOT_PASSWORD = 'root1234'
+ROOT_PASSWORD = 'root123'
 NEWPASSWORD = 'yanglei2'
 SCR_PASSWORD = '$2a$10$YspahrSiuR.w8HShr4mgLOqz604DOGw/zFmRZrlONcJyrLhEYWt1m'
 ORACLE_USER = 'oracle'
@@ -34,23 +34,28 @@ YL_PHONE = '18200585160'
 
 # ZDBM版本信息
 # ZDBM_VERSION = '1.0.12'
-ZDBM_VERSION = '1.0.14'
+# ZDBM_VERSION = '1.0.14'
+ZDBM_VERSION = '2.1.0'
 
 # 存放zdbm包的地址
 ZDBM_PACKAGE_IP = '192.168.12.10'
 ZDBM_PACKAGE_PORT = '22222'
 ZDBM_PACKAGE_PWD = 'root1234'
-# ZDBM_PACKAGE_NAME = '/soft/zdbm/zdbm-201905151636-v1.0.13.5.tar.gz'
-ZDBM_PACKAGE_NAME = '/var/lib/jenkins/workspace/Zdbm/zdbm-*.tar.gz'
-# ZDBM_PACKAGE_NAME = '/soft/zdbm/zdbm-201905301604-v1.0.10.12.tar.gz'
+# ZDBM_PACKAGE_NAME = '/soft/zdbm/zdbm-package/v1.0.14/zdbm-20190827174700-v1.0.14-rc12.tar.gz'
+# ZDBM_PACKAGE_NAME = '/var/lib/jenkins/workspace/Zdbm/zdbm-*.tar.gz'
+# ZDBM_PACKAGE_NAME = '/soft/zdbm/zdbm-package/v2.0/zdbm-201911261720-v2.0.2-rc2.tar.gz'
 # ZDBM_PACKAGE_NAME = '/var/lib/jenkins/workspace/zdbm_auto_page/zdbm-*.tar.gz'
+# ZDBM_PACKAGE_NAME = '/var/lib/jenkins/workspace/Zdbm2.0/zdbm-*.tar.gz'
+ZDBM_PACKAGE_NAME = '/soft/zdbm/zdbm-package/v2.1.0/zdbm-202001021135-v2.1.0-rc7.pro.tar.gz'
 ZDBM_PACKAGE_NAME_TAR = ZDBM_PACKAGE_NAME.split('/')[-1]
 MY_JENKINS_NAME = 'myjenkins.tar'
+# Install_Data = 'auto_install_1014.sh'
+Install_Data = 'auto_install_2000.sh'
 # test_license_update_name
 LICENSE_UPDATE_NAME = 'testD'
 
 # mysql信息
-MYSQL_PORT = 3306
+MYSQL_PORT = 3333
 MYSQL_DATABASE = 'zdbm'
 MYSQL_USERNAME = 'root'
 MYSQL_PASSWORD = 'zdbm123'
@@ -66,7 +71,7 @@ OR11204_IP = '192.168.12.1'
 OR11204_PORT = '22'
 OR11204_SYS_USER = 'zdbm'
 OR11204_NAME = 't12.1'
-OR11204_ORACLE_ORCL_NAME ='orcl'
+OR11204_ORACLE_ORCL_NAME = 'orcl'
 OR11204_ORACLE_ORCL_USER = 'zdbm'
 OR11204_ORACLE_ORCL_PASSWORD = 'zdbm'
 OR11204_ORACLE_TEST_USER = 'zdbm'
