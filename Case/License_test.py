@@ -1,7 +1,7 @@
-from ZDBM.Common.Request_method import RequestMethod
-from ZDBM.Common.rand_name import RangName
-from ZDBM.Common.connect_mysql import ConnMysql
-from ZDBM.Common.get_license import GetLicense
+from Common.Request_method import RequestMethod
+from Common.rand_name import RangName
+from Common.connect_mysql import ConnMysql
+from Common.get_license import GetLicense
 class LicenseTest:
 
     def __init__(self, params=None):

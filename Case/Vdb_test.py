@@ -1,11 +1,11 @@
 import json
 import time
 import datetime
-from ZDBM.Common.Request_method import RequestMethod
-from ZDBM.Common.connect_mysql import ConnMysql
-from ZDBM.Common.connect_oracle import ConnOracle
-from ZDBM.Common.configure import *
-from ZDBM.Common.get_license import GetLicense
+from Common.Request_method import RequestMethod
+from Common.connect_mysql import ConnMysql
+from Common.connect_oracle import ConnOracle
+from Common.configure import *
+from Common.get_license import GetLicense
 
 
 
@@ -124,6 +124,8 @@ class VdbTest:
 
     def test_vdb_reset(self):
         # 重置VDB
+        ConnOracle(ip=self.params['MDB_IP'], user=self.params['ORACLE_USER'], pwd=self.params['ORACLE_PASSWORD'],
+                   oracle_name=NEED_PARAMETER['vdb' + '_' + self.params['dbName'] + '_name']).init_operate()
         ConnOracle(ip=self.params['MDB_IP'], user=self.params['ORACLE_USER'],pwd=self.params['ORACLE_PASSWORD'],
                    oracle_name=NEED_PARAMETER['vdb'+'_' + self.params['dbName']+'_name']).new_table()
 
@@ -150,6 +152,8 @@ class VdbTest:
             if archive_time == 0:
                 content = '归档状态异常，5分钟未恢复'
                 break
+        ConnOracle(ip=self.params['MDB_IP'], user=self.params['ORACLE_USER'], pwd=self.params['ORACLE_PASSWORD'],
+                   oracle_name=NEED_PARAMETER['vdb' + '_' + self.params['dbName'] + '_name']).init_operate()
         ConnOracle(ip=self.params['MDB_IP'], user=self.params['ORACLE_USER'],pwd=self.params['ORACLE_PASSWORD'],
                    oracle_name=NEED_PARAMETER['vdb'+'_' + self.params['dbName']+'_name']).insert_dept()
         new_database_value = \

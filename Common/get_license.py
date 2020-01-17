@@ -1,6 +1,6 @@
 import paramiko
 import time
-from ZDBM.Common.configure import *
+from Common.configure import *
 
 
 class GetLicense:
@@ -63,6 +63,24 @@ class GetLicense:
                 print("error: ", err)
         except Exception as e:
             print(e)
+
+    def get_result(self, com, ip=IP, port=SSH_PORT, password=ROOT_PASSWORD, username=ROOT_NAME):
+        self.ssh.connect(ip, port=port, username=username, password=password)
+        print("连接ssh:", ip, port, password)
+        print("com命令:", com)
+        stout = errs = None
+        try:
+            ssh_stdin, ssh_stdout, ssh_stderr = self.ssh.exec_command(com)
+            stout = ssh_stdout.readlines()
+            errs = ssh_stderr.readlines()
+            for s in stout:
+                print("ssh_stdout:", s)
+            for err in errs:
+                print("error: ", err)
+        except Exception as e:
+            print(e)
+            errs = "{}".format(e)
+        return stout, errs
 
 if __name__ == '__main__':
     GetLicense().linux_mkdir('/home/oracle/zdbm/vJ6eH4MlXanKO1jN')

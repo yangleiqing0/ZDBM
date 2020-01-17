@@ -1,4 +1,4 @@
-from ZDBM.Common.configure import *
+from Common.configure import *
 
 
 class GetHodeResult:

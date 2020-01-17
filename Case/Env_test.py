@@ -1,11 +1,11 @@
 import json
 import time
 import datetime
-from ZDBM.Common.Request_method import RequestMethod
-from ZDBM.Common.connect_mysql import ConnMysql
-from ZDBM.Common.configure import *
-from ZDBM.Common.CLEARE_ENV import ClearEnv as Ce
-from ZDBM.Case.DeleteMySql import DeleteWords
+from Common.Request_method import RequestMethod
+from Common.connect_mysql import ConnMysql
+from Common.configure import *
+from Common.CLEARE_ENV import ClearEnv as Ce
+from Case.DeleteMySql import DeleteWords
 
 
 class EnvTest:
@@ -187,7 +187,10 @@ class EnvTest:
         status_sql = 'select count(*) from zdbm_orcl_source_db_backups where source_id="%s"' % (NEED_PARAMETER[self.params['envName'] + '_' + self.params['dbName'] + '_source_id'])
         time.sleep(2)
         while 1:
-            result = ConnMysql().select_mysql(sql)[0]
+            try:
+                result = ConnMysql().select_mysql(sql)[0]
+            except AttributeError as e:
+                result = ConnMysql().select_mysql(sql)[0]
             print("添加源库状态：", result, '时间过去：', 600-archive_time, '秒')
             archive_time -= 2
             if result == 'PROCESSING':

@@ -1,12 +1,12 @@
 import time
 import cx_Oracle
-from ZDBM.Common.connect_oracle import ConnOracle
-from ZDBM.Common.configure import *
-from ZDBM.Case.Env_test import EnvTest
-from ZDBM.Common.get_license import GetLicense
-from ZDBM.Common.CLEARE_ENV import ClearEnv as Ce
-from ZDBM.Common.Request_method import RequestMethod
-from ZDBM.Common.Command import *
+from Common.connect_oracle import ConnOracle
+from Common.configure import *
+from Case.Env_test import EnvTest
+from Common.get_license import GetLicense
+from Common.CLEARE_ENV import ClearEnv as Ce
+from Common.Request_method import RequestMethod
+from Common.Command import *
 
 
 class SourceDbs:

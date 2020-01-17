@@ -1,5 +1,5 @@
 import time
-from ZDBM.Common.connect_mysql import ConnMysql
+from Common.connect_mysql import ConnMysql
 
 
 class ListenOnLine:

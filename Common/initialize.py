@@ -1,6 +1,6 @@
-from ZDBM.Common.Auto_install import AutoInstall
-from ZDBM.Common.connect_mysql import ConnMysql
-from ZDBM.Common.get_license import GetLicense
+from Common.Auto_install import AutoInstall
+from Common.connect_mysql import ConnMysql
+from Common.get_license import GetLicense
 class Initialize:
 
     def __init__(self):

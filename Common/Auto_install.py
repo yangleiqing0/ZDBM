@@ -1,6 +1,6 @@
 import time
-from ZDBM.Common.configure import *
-from ZDBM.Common.get_license import GetLicense
+from Common.configure import *
+from Common.get_license import GetLicense
 
 
 class AutoInstall:
@@ -22,9 +22,9 @@ class AutoInstall:
         time.sleep(15)
         print('开始进行预安装')
         if Install_Data == 'auto_install_1014.sh':
-            GetLicense().linux_command('cd /opt &&sh %s %s %s %s' % (Install_Data, ZDBM_PACKAGE_NAME_TAR, IP, ROOT_PASSWORD))
+            GetLicense().linux_command('hwclock --hctosys && cd /opt &&sh %s %s %s %s' % (Install_Data, ZDBM_PACKAGE_NAME_TAR, IP, ROOT_PASSWORD))
         else:
-            GetLicense().linux_command('cd /opt &&sh %s %s %s %s %s' % (Install_Data, ZDBM_PACKAGE_NAME_TAR, IP, SSH_PORT, ROOT_PASSWORD))
+            GetLicense().linux_command('hwclock --hctosys && cd /opt &&sh %s %s %s %s %s' % (Install_Data, ZDBM_PACKAGE_NAME_TAR, IP, SSH_PORT, ROOT_PASSWORD))
         print('预安装ZDBM所需软件结束')
         time.sleep(120)
         # GetLicense().linux_command('echo nameserver 192.168.0.1 > /etc/resolv.conf')

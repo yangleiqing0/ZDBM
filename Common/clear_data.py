@@ -8,7 +8,10 @@ class ClearData:
 
     @staticmethod
     def clear_txt():
-        os.remove(r'../Data/ZDBM_test_result.txt')
+        try:
+            os.remove(r'../Data/ZDBM_test_result.txt')
+        except Exception:
+            pass
 
     @staticmethod
     def clear_xlsx():

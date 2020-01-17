@@ -1,6 +1,6 @@
 import time
-from ZDBM.Common.configure import *
-from ZDBM.Common.get_license import GetLicense
+from Common.configure import *
+from Common.get_license import GetLicense
 
 class GetJenkins:
 

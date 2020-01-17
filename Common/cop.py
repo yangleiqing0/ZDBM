@@ -1,6 +1,6 @@
 import xlsxwriter
 import time
-from ZDBM.Common.configure import *
+from Common.configure import *
 
 class Report:
 

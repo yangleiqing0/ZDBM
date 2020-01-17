@@ -1,6 +1,6 @@
 import re
-from ZDBM.Common.configure import *
-from ZDBM.Common.rand_name import RangName
+from Common.configure import *
+from Common.rand_name import RangName
 
 
 class GetParams:

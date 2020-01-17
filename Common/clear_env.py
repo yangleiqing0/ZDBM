@@ -1,5 +1,5 @@
-from ZDBM.Common.connect_mysql import ConnMysql
-from ZDBM.Common.configure import *
+from Common.connect_mysql import ConnMysql
+from Common.configure import *
 
 
 class ClearEnv:

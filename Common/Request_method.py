@@ -1,6 +1,6 @@
 import requests
 import json
-from ZDBM.Common.configure import *
+from Common.configure import *
 requests.packages.urllib3.disable_warnings()
 
 

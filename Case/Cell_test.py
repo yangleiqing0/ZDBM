@@ -1,8 +1,8 @@
 import time
-from ZDBM.Common.Request_method import RequestMethod
-from ZDBM.Common.connect_mysql import ConnMysql
-from ZDBM.Common.configure import *
-from ZDBM.Common.clear_env import ClearEnv
+from Common.Request_method import RequestMethod
+from Common.connect_mysql import ConnMysql
+from Common.configure import *
+from Common.clear_env import ClearEnv
 
 
 class CellTest:

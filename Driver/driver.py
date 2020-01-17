@@ -2,16 +2,16 @@ import glob
 import xlrd
 import sys
 import time
-from ZDBM.Common.assert_method import AssertMethod
-from ZDBM.Common.do_report import Report
-from ZDBM.Common.clear_data import ClearData
-from ZDBM.Common.get_hode_result import GetHodeResult
-from ZDBM.Common.get_params import GetParams
-from ZDBM.Common.configure import *
-from ZDBM.Common.command_jenkins import ComJenkins
-from ZDBM.Common.initialize import Initialize
-from ZDBM.Common.install_oracle import InstallOracle
-
+from Common.assert_method import AssertMethod
+from Common.do_report import Report
+from Common.clear_data import ClearData
+from Common.get_hode_result import GetHodeResult
+from Common.get_params import GetParams
+from Common.configure import *
+from Common.command_jenkins import ComJenkins
+from Common.initialize import Initialize
+from Common.install_oracle import InstallOracle
+from utils.execute_jmeter import start
 
 class Driver:
 
@@ -23,7 +23,7 @@ class Driver:
     @staticmethod
     def install_all():
         # ComJenkins().build_job()    # 触发jenkins自动打包
-        # Initialize().install_zdbm()   # 自动进行zdbm预安装和安装
+        Initialize().install_zdbm()   # 自动进行zdbm预安装和安装
         InstallOracle().install_oracle()   # 自动从12.10将oracle包scp到目标服务器的/u01
 
     def get_data(self):
@@ -35,10 +35,10 @@ class Driver:
             book = xlrd.open_workbook(table)
             for s in range((len(book.sheets()))):
                 sheet = book.sheets()[s]
-                # for i in range(25, 30):
+                # for i in range(24, 30):
                 for i in range(1, sheet.nrows):
                     lis = sheet.row_values(i)
-                    print(lis)
+                    print("第{}次，参数为{}".format(i, lis))
                     print(lis[5])
                     lis[6] = lis[6].split(',')
                     assert_method, hode_result = lis[7].split(':', 1)
@@ -113,6 +113,9 @@ class Driver:
     def to_report(self):
         self.test_report()
         print('测试完毕，测试报告生成完毕')
+        print('开始调用jmeter执行测试其他接口')
+        start()
+        print('jmeter执行测试接口，报告已生成')
         ClearData().clear_txt()
 
 

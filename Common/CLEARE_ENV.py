@@ -1,8 +1,8 @@
 import requests
 import json
 import time
-from ZDBM.Common.configure import *
-from ZDBM.Common.connect_mysql import ConnMysql
+from Common.configure import *
+from Common.connect_mysql import ConnMysql
 requests.packages.urllib3.disable_warnings()
 
 
@@ -101,5 +101,5 @@ class ClearEnv:
         return 0, True
 
 if __name__ == "__main__":
-    ClearEnv("192.168.12.80").login()
+    ClearEnv("192.168.12.206").login()
 

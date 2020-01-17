@@ -1,6 +1,6 @@
 import pymysql
 import paramiko
-from ZDBM.Common.configure import *
+from Common.configure import *
 
 RETAIN_TABLES = [
     'zdbm_zpools','zdbm_zpool_disks', 'zdbm_users','zdbm_user_tokens','zdbm_task_weights','zdbm_tactics',

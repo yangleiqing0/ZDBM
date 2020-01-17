@@ -1,17 +1,22 @@
 import time
-from ZDBM.Common.configure import *
+from Common.configure import *
 import cx_Oracle  # 引用模块cx_Oracle
 
 class ConnOracle:
 
-    def __init__(self, user=MDB1_ORACLE_USER, pwd=MDB1_ORACLE_PASSWORD, ip=MDB1_IP, port=MDB1_ORACLE_PORT,oracle_name=None, mode=None):
+    def __init__(self, user=MDB1_ORACLE_USER, pwd=MDB1_ORACLE_PASSWORD, ip=MDB1_IP, port=MDB1_ORACLE_PORT, oracle_name="", mode=None):
         to = ip+':'+port+'/'+oracle_name
-        print('要连接的路径:', to, '用户:', user, '密码: ', pwd)
+        self.to = to
+        print('要连接的路径:', to, '用户:', user, '密码: ', pwd, "mode:", mode)
         if mode is None:
             self.conn = cx_Oracle.connect(user, pwd, to)  # 连接数据库
         else:
             self.conn = cx_Oracle.connect(user, pwd, to, mode)  # 连接数据库
         self.c = self.conn.cursor()  # 获取cursor
+
+    def init_system(self):
+        self.conn = cx_Oracle.connect("system", "root1234", self.to)
+        self.c = self.conn.cursor()
 
     def selcet_oracle(self, sql):
         print('要查询的语句为: ', sql)
@@ -32,6 +37,13 @@ class ConnOracle:
     def exeute_oracle(self, sql):
         print('要执行的sql语句为 : ', sql)
         self.c.execute(sql)
+
+    def init_operate(self):
+        self.init_system()
+        sql = "grant create table,drop any table to zdbm"
+        sql2 = "grant unlimited tablespace to zdbm"
+        self.operate_oracle(sql)
+        self.operate_oracle(sql2)
 
     def new_table(self):
         sql = """declare

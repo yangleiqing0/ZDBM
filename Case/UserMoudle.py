@@ -1,6 +1,6 @@
-from ZDBM.Common.requests_method import JsonRequest
+from Common.requests_method import JsonRequest
 import time
-from ZDBM.Common.get_params import get_params
+from Common.get_params import get_params
 
 class UserMoudle:
 
