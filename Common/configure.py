@@ -1,5 +1,27 @@
 # 所有文件的参数配置
-NEED_PARAMETER = {}
+NEED_PARAMETER = {
+	't12.1_node_id': 8,
+	't12.1_id': 8,
+	't12.1_softwares_id': 8,
+	't12.1_yang_database_id': 8,
+	't12.1_auto_database_id': 9,
+	'm12.206_node_id': 9,
+	'm12.206_id': 9,
+	'm12.206_softwares_id': 9,
+	'm12.201_node_id': 10,
+	'm12.201_id': 10,
+	'm12.201_softwares_id': 10,
+	't12.1_yang_source_id': 3,
+	't12.1_auto_source_id': 4,
+	't12.1_auto_vdb_id': 5,
+	't12.1_yang_vdb_id': 6,
+	'vdb_auto_name': 'vdb_ymvf',
+	'snapshot_auto_id': 7,
+	'vdb_auto_id': 5,
+	'vdb_yang_name': 'vdb_tS4A',
+	'snapshot_yang_id': 8,
+	'vdb_yang_id': 6
+}
 TEST_REPORT_EXCEL_NAME = 'ZDBM_test_report'
 TEST_REPORT_TXT_NAME = 'ZDBM_test_result'
 TEST_TITLE_NAME = 'ZDBM接口测试'
@@ -46,7 +68,7 @@ ZDBM_PACKAGE_PWD = 'root1234'
 # ZDBM_PACKAGE_NAME = '/soft/zdbm/zdbm-package/v2.0/zdbm-201911261720-v2.0.2-rc2.tar.gz'
 # ZDBM_PACKAGE_NAME = '/var/lib/jenkins/workspace/zdbm_auto_page/zdbm-*.tar.gz'
 # ZDBM_PACKAGE_NAME = '/var/lib/jenkins/workspace/Zdbm2.0/zdbm-*.tar.gz'
-ZDBM_PACKAGE_NAME = '/soft/zdbm/zdbm-package/v2.1.2/zdbm-202001141441-v2.1.2.rc1.tar.gz'
+ZDBM_PACKAGE_NAME = '/soft/zdbm/zdbm-package/v2.1.3/zdbm-202001171716-v2.1.3-test.tar.gz'
 ZDBM_PACKAGE_NAME_TAR = ZDBM_PACKAGE_NAME.split('/')[-1]
 MY_JENKINS_NAME = 'myjenkins.tar'
 # Install_Data = 'auto_install_1014.sh'

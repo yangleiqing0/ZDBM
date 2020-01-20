@@ -184,7 +184,7 @@ class EnvTest:
         print(sql, content_sql)
         archive_time = 10 * 60 # 5分钟
         times = 10*60
-        status_sql = 'select count(*) from zdbm_orcl_source_db_backups where source_id="%s"' % (NEED_PARAMETER[self.params['envName'] + '_' + self.params['dbName'] + '_source_id'])
+        status_sql = 'select count(*) from zdbm_orcl_source_db_snapshots where source_id="%s"' % (NEED_PARAMETER[self.params['envName'] + '_' + self.params['dbName'] + '_source_id'])
         time.sleep(2)
         while 1:
             try:

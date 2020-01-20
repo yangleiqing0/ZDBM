@@ -165,7 +165,8 @@ class VdbTest:
 
     def test_recovery_preset_by_vdb(self):
         # 预生成通过vdb全量恢复源库需要的参数
-        data = '{"vdbID":%s,"targetDir":"%s"}' % (NEED_PARAMETER['vdb'+'_' + self.params['dbName']+'_id'], MDB1_V2P_PATH)
+        data = '{"vdbID":%s,"targetDir":"%s", "targetEnvID": %s}' % (NEED_PARAMETER['vdb'+'_' + self.params['dbName']+'_id'],
+                                                                     MDB1_V2P_PATH, NEED_PARAMETER[self.params['envName']+'_id'])
         content = RequestMethod().to_requests(self.request_method, 'recovery/preset/by/vdb', data=data)
         print(content)
         return {

@@ -11,7 +11,7 @@ from Common.configure import *
 from Common.command_jenkins import ComJenkins
 from Common.initialize import Initialize
 from Common.install_oracle import InstallOracle
-from utils.execute_jmeter import start
+from utils.execute_jmeter import start, analysis_jmeter_report
 
 class Driver:
 
@@ -28,14 +28,14 @@ class Driver:
 
     def get_data(self):
         ClearData().clear_xlsx()
-        self.install_all()
+        # self.install_all()
         # print(self.tables)
         for table in self.tables:
             print(table)
             book = xlrd.open_workbook(table)
             for s in range((len(book.sheets()))):
                 sheet = book.sheets()[s]
-                # for i in range(24, 30):
+                # for i in range(26, sheet.nrows):
                 for i in range(1, sheet.nrows):
                     lis = sheet.row_values(i)
                     print("第{}次，参数为{}".format(i, lis))
@@ -49,8 +49,8 @@ class Driver:
                     print("NEED_PARAMETER:", NEED_PARAMETER)
                     if lis[9] != 'n':
                         # try:
-                        __import__('ZDBM.Case.'+lis[0])
-                        m = sys.modules['ZDBM.Case.'+lis[0]]
+                        __import__('Case.'+lis[0])
+                        m = sys.modules['Case.'+lis[0]]
                         t = getattr(m, lis[1])
                         method = getattr(t(params_dict), lis[2])
                         value = method()
@@ -90,7 +90,7 @@ class Driver:
             res = eval(res)
             if res['t_result'] == '测试成功':
                 m += 1
-            print(res['t_pkg'],res['t_object'],res['t_method'],res['t_description'],res['t_hope'],res['t_actual'],res['t_result'])
+            print(res['t_pkg'], res['t_object'], res['t_method'], res['t_description'], res['t_hope'], res['t_actual'], res['t_result'])
             content = {"t_pkg": res['t_pkg'],
                        "t_object": res['t_object'],
                        "t_method": res['t_method'],
@@ -111,11 +111,12 @@ class Driver:
         r.test_detail(data, len(result), len(data))
 
     def to_report(self):
-        self.test_report()
-        print('测试完毕，测试报告生成完毕')
         print('开始调用jmeter执行测试其他接口')
         start()
-        print('jmeter执行测试接口，报告已生成')
+        print('jmeter执行测试接口')
+        analysis_jmeter_report()
+        self.test_report()
+        print('测试完毕，测试报告生成完毕')
         ClearData().clear_txt()
 
 
