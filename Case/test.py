@@ -10,12 +10,14 @@ def dict_to_object(dictObj):
         inst[key] = dict_to_object(value)
     return inst
 
+
 def object_to_dict(object):
     dic = {}
     for column in object.__table__.columns:
         dic[column.name] = str(getattr(object, column.name))
 
     return dic
+
 
 # a= {"a":1,'b':2}
 # a = dict_to_object(a)
@@ -27,5 +29,6 @@ def object_to_dict(object):
 # print(datetime.now())
 
 import xlsxwriter
+
 xlsx = xlsxwriter.Workbook('a.xlsx')
 xlsx.close()

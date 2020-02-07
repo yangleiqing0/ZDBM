@@ -13,6 +13,7 @@ from Common.initialize import Initialize
 from Common.install_oracle import InstallOracle
 from utils.execute_jmeter import start, analysis_jmeter_report
 
+
 class Driver:
 
     def __init__(self):
@@ -23,8 +24,8 @@ class Driver:
     @staticmethod
     def install_all():
         # ComJenkins().build_job()    # 触发jenkins自动打包
-        Initialize().install_zdbm()   # 自动进行zdbm预安装和安装
-        InstallOracle().install_oracle()   # 自动从12.10将oracle包scp到目标服务器的/u01
+        Initialize().install_zdbm()  # 自动进行zdbm预安装和安装
+        InstallOracle().install_oracle()  # 自动从12.10将oracle包scp到目标服务器的/u01
 
     def get_data(self):
         ClearData().clear_xlsx()
@@ -42,15 +43,15 @@ class Driver:
                     print(lis[5])
                     lis[6] = lis[6].split(',')
                     assert_method, hode_result = lis[7].split(':', 1)
-                    params_dict = {'request_method': lis[3]}   # 将请求的方法加入param_dict字典
+                    params_dict = {'request_method': lis[3]}  # 将请求的方法加入param_dict字典
                     params_dict = GetParams(params_dict, lis[6][0]).analysis_param()  # 通过解析参数得到参数字典
                     t_description = GetParams().analysis_describe(lis[4])  # 对备注进行解析
                     print("params_dict:", params_dict)
                     print("NEED_PARAMETER:", NEED_PARAMETER)
                     if lis[9] != 'n':
                         # try:
-                        __import__('Case.'+lis[0])
-                        m = sys.modules['Case.'+lis[0]]
+                        __import__('Case.' + lis[0])
+                        m = sys.modules['Case.' + lis[0]]
                         t = getattr(m, lis[1])
                         method = getattr(t(params_dict), lis[2])
                         value = method()
@@ -60,7 +61,7 @@ class Driver:
                         actualresult = value['actualresult']
                         # print(actualresult, hode_result)
                         # print('试试',value)
-                        hode_result = GetHodeResult().get_hode_result(hode_result, value)   # 期望结果解析
+                        hode_result = GetHodeResult().get_hode_result(hode_result, value)  # 期望结果解析
                         result = AssertMethod(actualresult, hode_result, assert_method,
                                               old_database_value=value.get('old_database_value', 1),
                                               new_database_value=value.get('new_database_value', 1),
@@ -68,9 +69,10 @@ class Driver:
                                               ).assert_database_result()
                         print(result)
                         with open(r'..\Data\%s.txt' % TEST_REPORT_TXT_NAME, 'a+', encoding='utf-8') as f:
-                            f.write(str({'t_pkg': lis[0], 't_object': lis[1], 't_method': lis[2], 't_description': t_description,
-                                         't_hope': assert_method+":" + hode_result
-                                        , 't_actual': actualresult, 't_result': result,
+                            f.write(str({'t_pkg': lis[0], 't_object': lis[1], 't_method': lis[2],
+                                         't_description': t_description,
+                                         't_hope': assert_method + ":" + hode_result
+                                            , 't_actual': actualresult, 't_result': result,
                                          'old_database_value': value.get('old_database_value', ' '),
                                          'new_database_value': value.get('new_database_value', ' ')
                                          }) + '\n')
@@ -90,7 +92,8 @@ class Driver:
             res = eval(res)
             if res['t_result'] == '测试成功':
                 m += 1
-            print(res['t_pkg'], res['t_object'], res['t_method'], res['t_description'], res['t_hope'], res['t_actual'], res['t_result'])
+            print(res['t_pkg'], res['t_object'], res['t_method'], res['t_description'], res['t_hope'], res['t_actual'],
+                  res['t_result'])
             content = {"t_pkg": res['t_pkg'],
                        "t_object": res['t_object'],
                        "t_method": res['t_method'],

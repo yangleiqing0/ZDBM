@@ -2,6 +2,7 @@ import time
 from Common.configure import *
 from Common.get_license import GetLicense
 
+
 class GetJenkins:
 
     def __init__(self):
@@ -9,7 +10,8 @@ class GetJenkins:
 
     def get_jenkins(self):
         # 先清除192.168.12.50服务器上的镜像和容器
-        GetLicense().linux_command('docker stop myjenkins && docker rm myjenkins && docker rmi myjenkins:v3 && rm -rf myjenkins.tar')
+        GetLicense().linux_command(
+            'docker stop myjenkins && docker rm myjenkins && docker rmi myjenkins:v3 && rm -rf myjenkins.tar')
 
         GetLicense().linux_command('sshpass -p %s scp -o StrictHostKeychecking=no '
                                    '/soft/%s root@%s:/opt && echo "scp OK"' %

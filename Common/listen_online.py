@@ -8,7 +8,7 @@ class ListenOnLine:
         pass
 
     def listen_nodes_online(self, node_name, Time=2):
-        min_time = Time*60
+        min_time = Time * 60
         is_online = False
         select_sql = 'select is_online from zdbm_orcl_env_nodes where node_name="%s"' % node_name
         while min_time > 0 or is_online is True:

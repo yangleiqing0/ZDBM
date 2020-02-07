@@ -19,8 +19,8 @@ class SourceDbs:
     def test_source(self):
         # 测试数据库参数
         data = """{"databaseID": %s,"username": "%s", "password": "%s"}""" \
-                % (NEED_PARAMETER[self.params['envName'] + '_' + self.params['dbName']+'_database_id'],
-                   self.params['ORACLE_USER'],self.params['ORACLE_PASSWORD'])
+               % (NEED_PARAMETER[self.params['envName'] + '_' + self.params['dbName'] + '_database_id'],
+                  self.params['ORACLE_USER'], self.params['ORACLE_PASSWORD'])
         content = RequestMethod().to_requests(self.request_method, 'source/test', data=data)
         return {
             'actualresult': content
@@ -29,8 +29,9 @@ class SourceDbs:
     def source_archive(self):
         # 源库开启关闭归档
         shutdwn_oracle = 'echo "shutdown immediate\n exit" > /home/oracle/shutdowntest.sql &&source /home/oracle/.bash_profile && export ORACLE_SID=%s' \
-                      '&&sqlplus / as sysdba @/home/oracle/shutdowntest.sql ' % self.params['dbName']
-        GetLicense().linux_command(com=shutdwn_oracle, ip=self.params['ORACLE_IP'], username=ORACLE_USER, password=ORACLE_PWD)
+                         '&&sqlplus / as sysdba @/home/oracle/shutdowntest.sql ' % self.params['dbName']
+        GetLicense().linux_command(com=shutdwn_oracle, ip=self.params['ORACLE_IP'], username=ORACLE_USER,
+                                   password=ORACLE_PWD)
 
         startup_oracle = 'echo "startup mount\n exit" > /home/oracle/startuptest.sql &&' \
                          'source /home/oracle/.bash_profile && export ORACLE_SID=%s' \
@@ -39,13 +40,14 @@ class SourceDbs:
                                    password=ORACLE_PWD)
 
         alter_oracle = 'echo "alter database %s;\n exit" > /home/oracle/alteroracletest.sql &&' \
-                         'source /home/oracle/.bash_profile && export ORACLE_SID=%s' \
-                         '&&sqlplus / as sysdba @/home/oracle/alteroracletest.sql ' % (self.params['archivemode'],self.params['dbName'])
-        GetLicense().linux_command(com=alter_oracle, ip=self.params['ORACLE_IP'], username=ORACLE_USER,
-                               password=ORACLE_PWD)
-        open_oracle = 'echo "alter database open;\n exit" > /home/oracle/opentest.sql &&' \
                        'source /home/oracle/.bash_profile && export ORACLE_SID=%s' \
-                       '&&sqlplus / as sysdba @/home/oracle/opentest.sql ' % self.params['dbName']
+                       '&&sqlplus / as sysdba @/home/oracle/alteroracletest.sql ' % (
+                       self.params['archivemode'], self.params['dbName'])
+        GetLicense().linux_command(com=alter_oracle, ip=self.params['ORACLE_IP'], username=ORACLE_USER,
+                                   password=ORACLE_PWD)
+        open_oracle = 'echo "alter database open;\n exit" > /home/oracle/opentest.sql &&' \
+                      'source /home/oracle/.bash_profile && export ORACLE_SID=%s' \
+                      '&&sqlplus / as sysdba @/home/oracle/opentest.sql ' % self.params['dbName']
         GetLicense().linux_command(com=open_oracle, ip=self.params['ORACLE_IP'], username=ORACLE_USER,
                                    password=ORACLE_PWD)
         node, all_online = Ce(IP).listen_nodes_online()
@@ -59,9 +61,9 @@ class SourceDbs:
     def source_force(self):
         # 开启关闭强制归档状态
         forcelog_oracle = 'echo "alter database %s force logging;\n exit" > /home/oracle/forcelogtest.sql &&' \
-                       'source /home/oracle/.bash_profile && export ORACLE_SID=%s' \
-                       '&&sqlplus / as sysdba @/home/oracle/forcelogtest.sql ' % (
-                       self.params['forcelogmode'], self.params['dbName'])
+                          'source /home/oracle/.bash_profile && export ORACLE_SID=%s' \
+                          '&&sqlplus / as sysdba @/home/oracle/forcelogtest.sql ' % (
+                              self.params['forcelogmode'], self.params['dbName'])
         GetLicense().linux_command(com=forcelog_oracle, ip=self.params['ORACLE_IP'], username=ORACLE_USER,
                                    password=ORACLE_PWD)
         content = self.test_source()
@@ -84,4 +86,3 @@ class SourceDbs:
         return {
             'actualresult': content
         }
-

@@ -2,15 +2,14 @@ from Common.requests_method import JsonRequest
 import time
 from Common.get_params import get_params
 
+
 class UserMoudle:
 
     def __init__(self, params=None):
-        self.time = int(time.time()*1000)
+        self.time = int(time.time() * 1000)
         self.params = params
 
-
     def gold_mall_token(self):
-
         uid = self.params['uid']
         auth = self.params['auth']
         if self.params.get('account'):
@@ -18,8 +17,7 @@ class UserMoudle:
             print(account)
             uid, auth = get_params().get_uid_auth(account)
 
-
-        print('1',uid,auth)
+        print('1', uid, auth)
         """
         金币商城首页token获取
         :return:
@@ -48,7 +46,7 @@ class UserMoudle:
             "openuuid": ""
           }
         }
-        '''%(auth, uid)
+        ''' % (auth, uid)
         content = JsonRequest().post(url, data=data)
         print(content)
         return content
@@ -83,7 +81,7 @@ class UserMoudle:
   },
   "lastDate": %d
 }
-        '''%self.time
+        ''' % self.time
         content = JsonRequest().post(url, data=data)
         print(content)
 
@@ -118,7 +116,7 @@ class UserMoudle:
   "pwd": "%s",
   "account": "%d"
 }
-        '''%(pwd,int(account))
+        ''' % (pwd, int(account))
         content = JsonRequest().post(url, data=data)
         return content
 
@@ -363,7 +361,7 @@ class UserMoudle:
   "avatar": "",
   "expireAt": %d
 }
-        '''%self.time
+        ''' % self.time
         content = JsonRequest().post(url, data=data)
         print(content)
 
@@ -562,8 +560,8 @@ class UserMoudle:
         content = JsonRequest().post(url, data=data)
         print(content)
 
-if __name__ == '__main__':
 
+if __name__ == '__main__':
     # UserMoudle().gold_mall_token(uid=3,auth=4)
     # UserMoudle().lease_auth()
     UserMoudle().login()

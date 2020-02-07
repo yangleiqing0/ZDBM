@@ -3,6 +3,7 @@ import jenkins
 from Common.configure import *
 from Common.get_license import GetLicense
 
+
 class ComJenkins:
 
     def __init__(self):
@@ -24,13 +25,14 @@ class ComJenkins:
                 print('自动打包任务构建失败')
                 break
             times -= 2
-            print('已经开始构建自动打包%ss  任务状态%s ' % (600-times+10, status))
+            print('已经开始构建自动打包%ss  任务状态%s ' % (600 - times + 10, status))
             time.sleep(2)
 
     def build_status(self):
         number = self.server.get_job_info(self.job_name)['lastBuild']['number']
         status = self.server.get_build_info(self.job_name, number)['result']
         return status
+
 
 if __name__ == '__main__':
     ComJenkins().build_job()

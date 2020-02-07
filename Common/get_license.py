@@ -11,9 +11,9 @@ class GetLicense:
         # 設定自動加入 遠端主機的 SSH Key
         self.ssh.set_missing_host_key_policy(paramiko.AutoAddPolicy())
 
-
     def write_key(self):
-        self.ssh.connect(ZDBM_LICENSE_COMPANY_IP, port=ZDBM_LICENSE_PORT, username=ZDBM_LICENSE_ROOT, password=ZDBM_LICENSE_PASSWORD,
+        self.ssh.connect(ZDBM_LICENSE_COMPANY_IP, port=ZDBM_LICENSE_PORT, username=ZDBM_LICENSE_ROOT,
+                         password=ZDBM_LICENSE_PASSWORD,
                          allow_agent=False, look_for_keys=False)
         # 設定連接 ssh 的主機名稱, 使用者名稱, ssh 私鑰路徑
         self.ssh.exec_command("rm -rf /usr/local/zdbm-license/zdbm_license.dat")
@@ -36,7 +36,8 @@ class GetLicense:
         time.sleep(0.1)
         self.ssh.exec_command('cd /usr/local/zdbm-license/ && echo %s >> zdbm_license_key.dat' % str(self.key[8]))
         time.sleep(1)
-        self.ssh.exec_command('cd /usr/local/zdbm-license/ && ./zdbm-license-linux-386-v1.0.10 -k zdbm_license_key.dat -d 100 --serviceDays=100 -e standard -s 100 -v 100')
+        self.ssh.exec_command(
+            'cd /usr/local/zdbm-license/ && ./zdbm-license-linux-386-v1.0.10 -k zdbm_license_key.dat -d 100 --serviceDays=100 -e standard -s 100 -v 100')
         time.sleep(1)
         ssh_stdin, ssh_stdout, ssh_stderr = self.ssh.exec_command('cat /usr/local/zdbm-license/zdbm_license.dat')
         result = ssh_stdout.read()
@@ -81,6 +82,7 @@ class GetLicense:
             print(e)
             errs = "{}".format(e)
         return stout, errs
+
 
 if __name__ == '__main__':
     GetLicense().linux_mkdir('/home/oracle/zdbm/vJ6eH4MlXanKO1jN')

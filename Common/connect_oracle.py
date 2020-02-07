@@ -2,10 +2,12 @@ import time
 from Common.configure import *
 import cx_Oracle  # 引用模块cx_Oracle
 
+
 class ConnOracle:
 
-    def __init__(self, user=MDB1_ORACLE_USER, pwd=MDB1_ORACLE_PASSWORD, ip=MDB1_IP, port=MDB1_ORACLE_PORT, oracle_name="", mode=None):
-        to = ip+':'+port+'/'+oracle_name
+    def __init__(self, user=MDB1_ORACLE_USER, pwd=MDB1_ORACLE_PASSWORD, ip=MDB1_IP, port=MDB1_ORACLE_PORT,
+                 oracle_name="", mode=None):
+        to = ip + ':' + port + '/' + oracle_name
         self.to = to
         print('要连接的路径:', to, '用户:', user, '密码: ', pwd, "mode:", mode)
         if mode is None:
@@ -57,7 +59,7 @@ end;"""
         sql1 = 'create table DEPT(id number(10),content varchar(20))'
         self.operate_oracle(sql)
         self.operate_oracle(sql1)
-        timestamp = str(time.strftime("%Y.%m.%d %H.%M.%S")).replace(' ', '.').replace('.','')
+        timestamp = str(time.strftime("%Y.%m.%d %H.%M.%S")).replace(' ', '.').replace('.', '')
         print(timestamp)
         sql2 = "insert into DEPT values(1,'%s')" % timestamp
         self.operate_oracle(sql2)
@@ -83,6 +85,7 @@ end;"""
             self.conn.close()  # 关闭连接
         except Exception as e:
             print(e)
+
 
 if __name__ == '__main__':
     ConnOracle(oracle_name='vdb_D6QJ').new_table()
