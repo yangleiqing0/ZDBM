@@ -18,7 +18,8 @@ class GetJenkins:
                                    (ROOT_PASSWORD, MY_JENKINS_NAME, IP), ip=ZDBM_PACKAGE_IP, port=ZDBM_PACKAGE_PORT,
                                    password=ZDBM_PACKAGE_PWD)
         GetLicense().linux_command('cd /opt && docker load -i %s && '
-                                   'docker run -d -it -p 8082:8080 -p 50000:50000 -u root  --name myjenkins myjenkins:v3 /start.sh &&'
+                                   'docker run -d -it -p 8082:8080 -p 50000:50000 -u root  --name myjenkins '
+                                   'myjenkins:v3 /start.sh && '
                                    'echo "start OK"' % MY_JENKINS_NAME)
 
 
