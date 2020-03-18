@@ -2,6 +2,7 @@ import time
 from Common.configure import *
 import cx_Oracle  # 引用模块cx_Oracle
 
+
 class ConnOracle:
 
     def __init__(self, user=MDB1_ORACLE_USER, pwd=MDB1_ORACLE_PASSWORD, ip=MDB1_IP, port=MDB1_ORACLE_PORT, oracle_name="", mode=None):

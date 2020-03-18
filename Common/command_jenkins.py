@@ -2,18 +2,20 @@ import time
 import jenkins
 from Common.configure import *
 from Common.get_license import GetLicense
+from Common.configure import ZDBM_VERSION
+
 
 class ComJenkins:
 
     def __init__(self):
         self.jenkins_ip = ZDBM_PACKAGE_IP
-        self.job_name = 'zdbm_auto_page'
+        self.job_name = 'zdbm_auto_page{}'.format(ZDBM_VERSION)
         self.server = jenkins.Jenkins('http://%s:8082' % self.jenkins_ip, username='admin', password='admin')
 
     def build_job(self):
         print(self.server.build_job(self.job_name))
-        # print(self.build_status())
-        times = 600
+        print(self.build_status())
+        times = 1200
         time.sleep(10)
         while 1:
             status = self.build_status()
@@ -31,6 +33,7 @@ class ComJenkins:
         number = self.server.get_job_info(self.job_name)['lastBuild']['number']
         status = self.server.get_build_info(self.job_name, number)['result']
         return status
+
 
 if __name__ == '__main__':
     ComJenkins().build_job()

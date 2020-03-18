@@ -10,7 +10,8 @@ class InstallOracle:
 
     @staticmethod
     def install_oracle():
-        GetLicense().linux_command('cd /opt/zdbm/shell && sh mdb_env_setting.sh')
+        GetLicense().linux_command(
+            'cd /opt/zdbm/shell && echo "oracle" > oracle_pwd && sh mdb_env_setting.sh < oracle_pwd')
         print('设置中间环境关于ORACLE变量配置结束')
         is_scp_ok = False
         eventlet.monkey_patch()  # 必须加这条代码

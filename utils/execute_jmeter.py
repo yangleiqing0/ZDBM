@@ -46,7 +46,7 @@ def analysis_jmeter_report():
             print(test_case)
     test_cases = list(lists.values())
     for t in range(len(test_cases)):
-        if t ==0:
+        if t == 0:
             test_cases[t] = str(test_cases[t])
         else:
             test_cases[t] = '\n' + str(test_cases[t])
@@ -55,6 +55,7 @@ def analysis_jmeter_report():
 
     with open(r'..\Data\%s.txt' % TEST_REPORT_TXT_NAME, 'a+', encoding='utf-8') as f:
         f.writelines(test_cases)
+
 
 if __name__ == '__main__':
     analysis_jmeter_report()

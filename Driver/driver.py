@@ -13,12 +13,14 @@ from Common.initialize import Initialize
 from Common.install_oracle import InstallOracle
 from utils.execute_jmeter import start, analysis_jmeter_report
 
+
 class Driver:
 
     def __init__(self):
         # self.tables = glob.glob(r'../Data/*test.xls')
         self.tables = glob.glob(r'../Data/*main_test.xls')
         # self.tables = glob.glob(r'../Data/*1.0.2_test.xls')
+        ClearData().clear_txt()
 
     @staticmethod
     def install_all():
