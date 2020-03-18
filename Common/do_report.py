@@ -2,6 +2,7 @@ import xlsxwriter
 import time
 from Common.configure import *
 
+
 class Report:
 
     def get_format(self,wd, option):

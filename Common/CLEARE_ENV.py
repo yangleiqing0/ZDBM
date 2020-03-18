@@ -74,7 +74,7 @@ class ClearEnv:
         url = '{}env/delete/{}'.format(self.ip, eid)
         self.session.delete(url, headers=self.headers, verify=False)
 
-    def listen_nodes_online(self, Time=10):
+    def listen_nodes_online(self, times=10):
         url1 = '{}login'.format(self.ip)
         data1 = '{"username":"%s","password":"%s","captchaID":"","captchaText":""}' % (self.username, self.password)
         login_html = self.session.post(url1, data1, headers=self.headers, verify=False).text
@@ -86,7 +86,7 @@ class ClearEnv:
         print(envs)
         envs = json.loads(envs)['data']['envs']
         for env in envs:
-            min_time = Time*60
+            min_time = times*60
             is_online = False
             select_sql = 'select is_online from zdbm_orcl_env_nodes where env_id="%s"' % env['id']
             while min_time > 0:
