@@ -2,6 +2,8 @@ from Common.Request_method import RequestMethod
 from Common.rand_name import RangName
 from Common.connect_mysql import ConnMysql
 from Common.get_license import GetLicense
+
+
 class LicenseTest:
 
     def __init__(self, params=None):
@@ -29,9 +31,9 @@ class LicenseTest:
         content = RequestMethod().to_requests(self.request_method, 'license/update/name', data=data)
         new_database_value = ConnMysql().select_mysql(sql)[0]
         return {
-                'actualresult': content, 'name': name, 'old_database_value': 'name:' + old_database_value,
-                'new_database_value': 'name:'+new_database_value, 'database_assert_method': False
-                }
+            'actualresult': content, 'name': name, 'old_database_value': 'name:' + old_database_value,
+            'new_database_value': 'name:' + new_database_value, 'database_assert_method': False
+        }
 
     def test_license_update_license(self):
         # 更新授权码
