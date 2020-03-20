@@ -6,8 +6,7 @@ from Common.connect_mysql import ConnMysql
 from Common.connect_oracle import ConnOracle
 from Common.configure import *
 from Common.get_license import GetLicense
-
-
+from utils import look_select, wait_for
 
 
 class VdbTest:
@@ -163,6 +162,25 @@ class VdbTest:
             'new_database_value': 'oracle_value:' + new_database_value, 'database_assert_method': False
         }
 
+    def test_vdb_refresh(self):
+        mode = "READ WRITE"
+        status = "RUNNING"
+        select_sql = "select id,target_time from zdbm_orcl_virtual_dbs where deleted_at is null and " \
+                     "open_mode='{}' and vdb_status='{}'".format(mode, status)
+        vdb_id, target_time = ConnMysql().select_mysql(select_sql)
+        print(vdb_id, str(target_time))
+        data = json.dumps({"timestamp": str(target_time)})
+
+        print(data)
+        content = RequestMethod().to_requests(self.request_method, "vdb/refresh/{}".format(vdb_id), data=data)
+        select_status_sql = "select vdb_status from zdbm_orcl_virtual_dbs where id={}".format(vdb_id)
+        result = wait_for(look_select, select_status_sql, status)
+
+        return {
+            'actualresult': content, 'old_database_value': 'value:{}'.format(True),
+            'new_database_value': 'value:{}'.format(result), 'database_assert_method': True
+        }
+
     def test_recovery_preset_by_vdb(self):
         # 预生成通过vdb全量恢复源库需要的参数
         data = '{"vdbID":%s,"targetDir":"%s", "targetEnvID": %s}' % (NEED_PARAMETER['vdb'+'_' + self.params['dbName']+'_id'],
@@ -217,3 +235,6 @@ class VdbTest:
             'actualresult': content
         }
 
+
+if __name__ == '__main__':
+    VdbTest({"request_method": "put"}).test_vdb_refresh()

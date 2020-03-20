@@ -83,6 +83,19 @@ class GetLicense:
             errs = "{}".format(e)
         return stout, errs
 
+    def wait_host_start(self, times=240):
+        while times > 0:
+            times -= 30
+            try:
+                self.ssh.connect(ZDBM_LICENSE_COMPANY_IP, port=ZDBM_LICENSE_PORT, username=ZDBM_LICENSE_ROOT,
+                                 password=ZDBM_LICENSE_PASSWORD,
+                                 allow_agent=False, look_for_keys=False, timeout=30)
+                time.sleep(30)
+                return
+            except TimeoutError:
+                continue
+        raise TimeoutError
+
 
 if __name__ == '__main__':
     GetLicense().linux_mkdir('/home/oracle/zdbm/vJ6eH4MlXanKO1jN')

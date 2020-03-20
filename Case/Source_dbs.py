@@ -1,6 +1,8 @@
 import time
 import cx_Oracle
+import json
 from Common.connect_oracle import ConnOracle
+from Common.connect_mysql import ConnMysql
 from Common.configure import *
 from Case.Env_test import EnvTest
 from Common.get_license import GetLicense
@@ -87,3 +89,27 @@ class SourceDbs:
             'actualresult': content
         }
 
+    def test_source_recover_time(self):
+        sql = "select id, snapshot_time, source_id from zdbm_orcl_source_db_snapshots " \
+              "where is_cleanup=0 and unavailable=0 "
+        snap_id, snapshot_time, source_id = ConnMysql().select_mysql(sql)
+        print(snapshot_time, source_id)
+        new_time = "2020-03-18 17:00:00"
+        update_sql = "update zdbm_orcl_source_db_snapshots set snapshot_time='{}' where id={}".format(
+            new_time, snap_id)
+        ConnMysql().operate_mysql(update_sql)
+        content = RequestMethod().to_requests(self.request_method, "source/get/{}".format(source_id))
+        print(content)
+        show_start_time = json.loads(content)["data"]["source"]["startTime"]
+        print("show_start_time", show_start_time)
+        ConnMysql().operate_mysql("update zdbm_orcl_source_db_snapshots set snapshot_time='{}' where id={}".format(
+            snapshot_time, snap_id))
+        new_time = "2020-03-18T17:00:00+08:00"
+        return {
+            'actualresult': content, 'old_database_value': 'value:{}'.format(new_time),
+            'new_database_value': 'value:{}'.format(show_start_time), 'database_assert_method': True
+        }
+
+
+if __name__ == '__main__':
+    SourceDbs({"request_method": "get"}).test_source_recover_time()

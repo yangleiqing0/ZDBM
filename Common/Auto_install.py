@@ -31,7 +31,7 @@ class AutoInstall:
             GetLicense().linux_command('hwclock --hctosys && cd /opt &&sh %s %s %s %s %s' % (
                 Install_Data, ZDBM_PACKAGE_NAME_TAR, IP, SSH_PORT, ROOT_PASSWORD))
         print('预安装ZDBM所需软件结束')
-        time.sleep(120)
+        GetLicense().wait_host_start()
         # GetLicense().linux_command('echo nameserver 192.168.0.1 > /etc/resolv.conf')
         # print("设置DNS为192.168.0.1成功")
         print('开始进行安装ZDBM')
@@ -47,7 +47,7 @@ class AutoInstall:
         time.sleep(2)
 
     def add_mpool(self):
-        GetLicense().linux_command('zpool  create -f  mpool   sdb   sdc  &&zpool  create -f  mpool01 sdd sde')
+        GetLicense().linux_command('zpool  create -f  mpool sdc  &&zpool  create -f  mpool01 sdd sde')
 
 
 if __name__ == '__main__':

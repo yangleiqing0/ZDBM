@@ -16,8 +16,8 @@ class ClearEnv:
             'Content-Type': 'application/json; charset=utf-8',
             'Accept': 'application/json, text/plain, */*'
         }
-        self.username = 'admin'
-        self.password = 'admin1'
+        self.username = 'yanglei'
+        self.password = 'yanglei1'
 
     def login(self):
         # choose = input('确认是否重置%s 服务器的环境请输入Y/N' % (self.SERVER_IP))
@@ -102,5 +102,5 @@ class ClearEnv:
 
 
 if __name__ == "__main__":
-    ClearEnv("192.168.12.201").login()
+    ClearEnv("192.168.12.206").login()
 

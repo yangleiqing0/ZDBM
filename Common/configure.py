@@ -43,7 +43,7 @@ ZDBM_PACKAGE_PORT = '22222'
 ZDBM_PACKAGE_PWD = 'root1234'
 # ZDBM_PACKAGE_NAME = '/soft/zdbm/zdbm-package/v1.0.14/zdbm-20190827174700-v1.0.14-rc12.tar.gz'
 # ZDBM_PACKAGE_NAME = '/var/lib/jenkins/workspace/Zdbm/zdbm-*.tar.gz'
-ZDBM_PACKAGE_NAME = '/soft/zdbm/zdbm-package/v${ZDBM_VERSION}/zdbm*.t'
+ZDBM_PACKAGE_NAME = '/soft/zdbm/zdbm-package/v{}/zdbm*.t'.format(ZDBM_VERSION)
 # ZDBM_PACKAGE_NAME = '/var/lib/jenkins/workspace/zdbm_auto_page/zdbm-*.tar.gz'
 # ZDBM_PACKAGE_NAME = '/var/lib/jenkins/workspace/Zdbm2.0/zdbm-*.tar.gz'
 # ZDBM_PACKAGE_NAME = '/soft/zdbm/zdbm-package/v2.1.3/zdbm-202003061436-v2.1.3.rc0.tar.gz'
@@ -53,6 +53,7 @@ MY_JENKINS_NAME = 'myjenkins.tar'
 Install_Data = 'auto_install_2000.sh'
 # test_license_update_name
 LICENSE_UPDATE_NAME = 'testD'
+
 
 # mysql信息
 MYSQL_PORT = 3333

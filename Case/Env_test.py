@@ -5,6 +5,7 @@ from Common.Request_method import RequestMethod
 from Common.connect_mysql import ConnMysql
 from Common.configure import *
 from Common.CLEARE_ENV import ClearEnv as Ce
+from utils import wait_for
 from Case.DeleteMySql import DeleteWords
 
 
@@ -218,6 +219,29 @@ class EnvTest:
             'actualresult': content
         }
 
+    def test_env_refresh(self):
+        env_id = self.del_env_soft()
+        content = RequestMethod().to_requests(self.request_method, 'env/fresh/{}'.format(env_id))
+        print(content)
+
+        sql = "select software_count from zdbm_orcl_envs where id={}".format(env_id)
+        new_database_value = ConnMysql().select_mysql(sql)[0]
+        # print(new_database_value)
+        return {
+            'actualresult': content, 'old_database_value': 'mysql_value:' + str(0),
+            'new_database_value': 'mysql_value:' + str(new_database_value), 'database_assert_method': False
+        }
+
+    @staticmethod
+    def del_env_soft():
+        select_sql = "select id, env_name from zdbm_orcl_envs where deleted_at is null"
+        env_id, env_name = ConnMysql().select_mysql(select_sql, True)[-1]
+        del_sql = "update zdbm_orcl_env_softwares set deleted_at='2020-03-18 17:28:50' where env_id={}".format(env_id)
+        update_count_sql = "update zdbm_orcl_envs set software_count=0 where env_name='{}'".format(env_name)
+        ConnMysql().operate_mysql(del_sql)
+        ConnMysql().operate_mysql(update_count_sql)
+        return env_id
+
 
 if __name__ == '__main__':
-    pass
+    EnvTest({"request_method": "put"}).test_env_refresh()
