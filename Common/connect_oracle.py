@@ -46,6 +46,11 @@ class ConnOracle:
         self.operate_oracle(sql)
         self.operate_oracle(sql2)
 
+    def switch_archive(self):
+        self.init_system()
+        sql = "alter system archive log current"
+        self.operate_oracle(sql)
+
     def new_table(self):
         sql = """declare
       num   number;
@@ -85,6 +90,8 @@ end;"""
         except Exception as e:
             print(e)
 
+
 if __name__ == '__main__':
-    ConnOracle(oracle_name='vdb_D6QJ').new_table()
-    ConnOracle(oracle_name='vdb_D6QJ').selcet_oracle('select content from DEPT')
+    # ConnOracle(oracle_name='vdb_D6QJ').new_table()
+    ConnOracle(ip='192.168.12.1', user='system', pwd='system', oracle_name='auto', mode=True).switch_archive()
+    # ConnOracle(oracle_name='vdb_D6QJ').selcet_oracle('select content from DEPT')

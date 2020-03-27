@@ -65,6 +65,26 @@ class GetLicense:
         except Exception as e:
             print(e)
 
+    def linux_command_return(self, com, ip=IP, port=SSH_PORT, password=O_PWD, username=O_USER):
+        self.ssh.connect(ip, port=port, username=username, password=password)
+        print("连接ssh:", ip, port, password)
+        print("com命令:", com)
+        try:
+            ssh_stdin, ssh_stdout, ssh_stderr = self.ssh.exec_command(com)
+            stout = ssh_stdout.readlines()
+            errs = ssh_stderr.readlines()
+            # for s in stout:
+            #     print("ssh_stdout:", s)
+            if stout:
+                return stout
+            for err in errs:
+                print("error: ", err)
+            if errs:
+                return errs
+        except Exception as e:
+            print(e)
+            return "{}".format(e)
+
     def get_result(self, com, ip=IP, port=SSH_PORT, password=ROOT_PASSWORD, username=ROOT_NAME):
         self.ssh.connect(ip, port=port, username=username, password=password)
         print("连接ssh:", ip, port, password)
@@ -95,6 +115,12 @@ class GetLicense:
             except TimeoutError:
                 continue
         raise TimeoutError
+
+    def linux_oracle(self, sql, sid, ip=IP):
+        cmd = 'echo "{};\n exit" > /home/oracle/script.sql &&source /home/oracle/.bash_profile ' \
+              '&& export ORACLE_SID={}&&sqlplus / as sysdba @/home/oracle/script.sql'.format(sql, sid)
+        result = self.linux_command_return(cmd, ip=ip)
+        return result
 
 
 if __name__ == '__main__':

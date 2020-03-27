@@ -208,6 +208,7 @@ class VdbTest:
         # 先创建路径
         com = "cd {path}&&ls | grep {name} | xargs rm -rf && ps -ef | grep pmon_{name} | grep -v grep | awk {c} | xargs kill -9".format(path=MDB1_V2P_PATH, name=self.params['dbName'], c='{print $2}').replace("{", "'{").replace("}", "}'")
         GetLicense().linux_command(com, ip=self.params['MDB_IP'], password=self.params['PWD'])
+        GetLicense().linux_command("killall sbt-server", ip=self.params['MDB_IP'], password=self.params['PWD'])
         time.sleep(30)
         # 通过test_recovery_preset_by_vdb方法获得提交的参数
         parameters = self.test_recovery_preset_by_vdb()

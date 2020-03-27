@@ -1,5 +1,5 @@
 # 所有文件的参数配置
-NEED_PARAMETER = {'t12.1_node_id': 6, 't12.1_id': 6, 't12.1_softwares_id': 6, 't12.1_auto_database_id': 10, 't12.1_yang_database_id': 11, 't12.1_orcl_database_id': 12, 'm12.209_node_id': 7, 'm12.209_id': 7, 'm12.209_softwares_id': 7, 't12.1_yang_source_id': 5, 't12.1_auto_source_id': 6, 'm12.201_node_id': 8, 'm12.201_id': 8, 'm12.201_softwares_id': 8, 't12.1_auto_vdb_id': 8, 't12.1_yang_vdb_id': 9, 'vdb_auto_name': 'vdb_BX3I', 'snapshot_auto_id': 5, 'vdb_auto_id': 8, 'vdb_yang_name': 'vdb_qknL', 'snapshot_yang_id': 6, 'vdb_yang_id': 9}
+NEED_PARAMETER = {"increment_source_id": 8, 't12.1_node_id': 9, 't12.1_id': 9, 't12.1_softwares_id': 10, 't12.1_auto_database_id': 15, 't12.1_yang_database_id': 16, 't12.1_orcl_database_id': 17, 'm12.209_node_id': 10, 'm12.209_id': 10, 'm12.209_softwares_id': 11, 't12.1_yang_source_id': 7, 't12.1_auto_source_id': 6, 'm12.201_node_id': 11, 'm12.201_id': 11, 'm12.201_softwares_id': 12, 't12.1_auto_vdb_id': 8, 't12.1_yang_vdb_id': 9, 'vdb_auto_name': 'vdb_BX3I', 'snapshot_auto_id': 5, 'vdb_auto_id': 8, 'vdb_yang_name': 'vdb_qknL', 'snapshot_yang_id': 6, 'vdb_yang_id': 9}
 TEST_REPORT_EXCEL_NAME = 'ZDBM_test_report'
 TEST_REPORT_TXT_NAME = 'ZDBM_test_result'
 TEST_TITLE_NAME = 'ZDBM接口测试'
@@ -19,6 +19,11 @@ NEWPASSWORD = 'yanglei2'
 SCR_PASSWORD = '$2a$10$YspahrSiuR.w8HShr4mgLOqz604DOGw/zFmRZrlONcJyrLhEYWt1m'
 ORACLE_USER = 'oracle'
 ORACLE_PWD = ORACLE_USER
+
+
+O_USER = "oracle"
+O_PWD = "oracle"
+
 
 # 默认存放zdbm.license在80服务器上
 ZDBM_LICENSE_COMPANY_IP = '192.168.12.10'

@@ -1,7 +1,5 @@
 import time
-import cx_Oracle
 import json
-from Common.connect_oracle import ConnOracle
 from Common.connect_mysql import ConnMysql
 from Common.configure import *
 from Case.Env_test import EnvTest
@@ -9,6 +7,7 @@ from Common.get_license import GetLicense
 from Common.CLEARE_ENV import ClearEnv as Ce
 from Common.Request_method import RequestMethod
 from Common.Command import *
+from utils import wait_for, look_select
 
 
 class SourceDbs:
@@ -110,6 +109,39 @@ class SourceDbs:
             'new_database_value': 'value:{}'.format(show_start_time), 'database_assert_method': True
         }
 
+    def test_increment_check(self):
+        db_name = self.params["dbName"]
+        select_source_id_sql = "select id from zdbm_orcl_source_dbs where deleted_at is null and db_name='{}'".format(db_name)
+        source_id = ConnMysql().select_mysql_new(select_source_id_sql)
+        sql = "alter system archive log current"
+        GetLicense().linux_oracle(sql, db_name, self.params["ip"])
+        print(source_id, db_name)
+        time.sleep(5)
+        update_sql = "update zdbm_orcl_source_db_archives a  INNER JOIN (" \
+                     "select id from zdbm_orcl_source_db_archives where source_id={} " \
+                     "order by next_scn desc limit 1) b on a.id = b.id set a.name='',a.arch_status='WAITING'".format(source_id)
+        ConnMysql().operate_mysql(update_sql)
+        content = RequestMethod().to_requests(self.request_method, "source/increment/check/{}".format(source_id))
+        print(content)
+        NEED_PARAMETER["increment_source_id"] = source_id
+        return {
+            'actualresult': content
+        }
+
+    def test_increment_backup(self):
+        source_id = NEED_PARAMETER["increment_source_id"]
+        select_status_sql = 'select source_status from zdbm_orcl_source_dbs where id = {}'.format(source_id)
+        status = ConnMysql().select_mysql_new(select_status_sql)
+        print("status:", status)
+        data = json.dumps({"nodeID": NEED_PARAMETER[self.params["envName"] + '_node_id']})
+        content = RequestMethod().to_requests(self.request_method, "source/increment/backup/{}".format(source_id), data=data)
+        wait_for(look_select, select_status_sql, status)
+        new_status = ConnMysql().select_mysql_new(select_status_sql)
+        return {
+            'actualresult': content, 'old_database_value': 'mysql_value:{}'.format(status),
+            'new_database_value': 'mysql_value:{}'.format(new_status), 'database_assert_method': True
+        }
+
 
 if __name__ == '__main__':
-    SourceDbs({"request_method": "get"}).test_source_recover_time()
+    SourceDbs({"request_method": "put", "ip": '192.168.12.1', "dbName": "auto"}).test_increment_check()
