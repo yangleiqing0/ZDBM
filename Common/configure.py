@@ -1,19 +1,20 @@
 # 所有文件的参数配置
-NEED_PARAMETER = {}
+NEED_PARAMETER = {'t12.1_node_id': 6, 't12.1_id': 6, 't12.1_softwares_id': 6, 't12.1_auto_database_id': 10, 't12.1_yang_database_id': 11, 't12.1_orcl_database_id': 12, 'm12.209_node_id': 7, 'm12.209_id': 7, 'm12.209_softwares_id': 7, 't12.1_yang_source_id': 5, 't12.1_auto_source_id': 6, 'm12.201_node_id': 8, 'm12.201_id': 8, 'm12.201_softwares_id': 8, 't12.1_auto_vdb_id': 8, 't12.1_yang_vdb_id': 9, 'vdb_auto_name': 'vdb_BX3I', 'snapshot_auto_id': 5, 'vdb_auto_id': 8, 'vdb_yang_name': 'vdb_qknL', 'snapshot_yang_id': 6, 'vdb_yang_id': 9}
 TEST_REPORT_EXCEL_NAME = 'ZDBM_test_report'
 TEST_REPORT_TXT_NAME = 'ZDBM_test_result'
 TEST_TITLE_NAME = 'ZDBM接口测试'
 # 用于分割txt内的内容
 # 服务器配置
-IP = '192.168.12.206'
+IP = '192.168.12.209'
 PORT = '40010'
 GATEWAY = '61.139.2.69'
 USERNAME = 'yanglei'
 PASSWORD = 'yanglei1'
 SSH_PORT = '22'
-SERVER_NAME = 'm12.206'
+SERVER_NAME = 'm12.209'
 ROOT_NAME = 'root'
 ROOT_PASSWORD = 'root1234'
+ROOT_PASSWORD_123 = 'root123'
 NEWPASSWORD = 'yanglei2'
 SCR_PASSWORD = '$2a$10$YspahrSiuR.w8HShr4mgLOqz604DOGw/zFmRZrlONcJyrLhEYWt1m'
 ORACLE_USER = 'oracle'
@@ -43,10 +44,10 @@ ZDBM_PACKAGE_PORT = '22222'
 ZDBM_PACKAGE_PWD = 'root1234'
 # ZDBM_PACKAGE_NAME = '/soft/zdbm/zdbm-package/v1.0.14/zdbm-20190827174700-v1.0.14-rc12.tar.gz'
 # ZDBM_PACKAGE_NAME = '/var/lib/jenkins/workspace/Zdbm/zdbm-*.tar.gz'
-ZDBM_PACKAGE_NAME = '/soft/zdbm/zdbm-package/v{}/zdbm*.t'.format(ZDBM_VERSION)
+# ZDBM_PACKAGE_NAME = '/soft/zdbm/zdbm-package/v{}/zdbm*.t'.format(ZDBM_VERSION)
 # ZDBM_PACKAGE_NAME = '/var/lib/jenkins/workspace/zdbm_auto_page/zdbm-*.tar.gz'
 # ZDBM_PACKAGE_NAME = '/var/lib/jenkins/workspace/Zdbm2.0/zdbm-*.tar.gz'
-# ZDBM_PACKAGE_NAME = '/soft/zdbm/zdbm-package/v2.1.3/zdbm-202003061436-v2.1.3.rc0.tar.gz'
+ZDBM_PACKAGE_NAME = '/soft/zdbm/zdbm-package/v{}/zdbm-202003201511-v2.1.3.rc2.pro.tar.gz'.format(ZDBM_VERSION)
 ZDBM_PACKAGE_NAME_TAR = ZDBM_PACKAGE_NAME.split('/')[-1]
 MY_JENKINS_NAME = 'myjenkins.tar'
 # Install_Data = 'auto_install_1014.sh'
@@ -102,9 +103,9 @@ OR11204RAC_SYS_USER = 'oracle'
 OR11204RAC_NAME = 'rac12.151'
 OR11204RAC_GRID_HOME = '/u01/app/grid/11204'
 
-# 目标中间环境192.168.12.206
-MDB1_IP = '192.168.12.206'
-MDB1_NAME = 'm12.206'
+# 目标中间环境192.168.12.209
+MDB1_IP = '192.168.12.209'
+MDB1_NAME = 'm12.209'
 MDB1_PORT = '22'
 MDB1_USER = 'oracle'
 MDB1_ORACLE_PORT = '1521'

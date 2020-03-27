@@ -34,10 +34,11 @@ class AutoInstall:
         GetLicense().wait_host_start()
         # GetLicense().linux_command('echo nameserver 192.168.0.1 > /etc/resolv.conf')
         # print("设置DNS为192.168.0.1成功")
+        time.sleep(100)
         print('开始进行安装ZDBM')
         GetLicense().linux_command('cd /opt/zdbm && sh zdbm_install.sh')
         print('安装ZDBM结束')
-        time.sleep(10)
+
         print('开始创建存储池')
         self.add_mpool()
         print('存储池创建结束')

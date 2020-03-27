@@ -91,7 +91,7 @@ class SourceDbs:
 
     def test_source_recover_time(self):
         sql = "select id, snapshot_time, source_id from zdbm_orcl_source_db_snapshots " \
-              "where is_cleanup=0 and unavailable=0 "
+              "where is_cleanup=0 and unavailable=0 order by source_id desc"
         snap_id, snapshot_time, source_id = ConnMysql().select_mysql(sql)
         print(snapshot_time, source_id)
         new_time = "2020-03-18 17:00:00"

@@ -20,7 +20,7 @@ class Driver:
         # self.tables = glob.glob(r'../Data/*test.xls')
         self.tables = glob.glob(r'../Data/*main_test.xls')
         # self.tables = glob.glob(r'../Data/*1.0.2_test.xls')
-        ClearData().clear_txt()
+        # ClearData().clear_txt()
 
     @staticmethod
     def install_all():
@@ -37,8 +37,8 @@ class Driver:
             book = xlrd.open_workbook(table)
             for s in range((len(book.sheets()))):
                 sheet = book.sheets()[s]
-                # for i in range(26, sheet.nrows):
-                for i in range(1, sheet.nrows):
+                for i in range(41, 43):
+                # for i in range(1, sheet.nrows):
                     lis = sheet.row_values(i)
                     print("第{}次，参数为{}".format(i, lis))
                     print(lis[5])
@@ -58,7 +58,7 @@ class Driver:
                         value = method()
                         # except Exception as e:
                         #     value = e
-                        # print(value)
+                        print("本次请求结果:", value)
                         actualresult = value['actualresult']
                         # print(actualresult, hode_result)
                         # print('试试',value)

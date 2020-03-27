@@ -16,5 +16,7 @@ class RangName:
         return ran_str
 
 
+
+
 if __name__ == '__main__':
     RangName().rand_str()

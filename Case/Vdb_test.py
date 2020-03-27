@@ -33,17 +33,15 @@ class VdbTest:
                '{"createdAt":"0001-01-01T00:00:00Z","updatedAt":"0001-01-01T00:00:00Z","name":"compatible","value":"11.2.0.4.0","parameterType":"ADVISE_EDIT"},' \
                '{"createdAt":"0001-01-01T00:00:00Z","updatedAt":"0001-01-01T00:00:00Z","name":"db_create_file_dest","value":"%s/%s/datafile","parameterType":"ADVISE_EDIT"},' \
                '{"createdAt":"0001-01-01T00:00:00Z","updatedAt":"0001-01-01T00:00:00Z","name":"db_recovery_file_dest_size","value":"500G","parameterType":"ADVISE_EDIT"},' \
-               '{"createdAt":"0001-01-01T00:00:00Z","updatedAt":"0001-01-01T00:00:00Z","name":"memory_max_target","value":"8G","parameterType":"ADVISE_EDIT"},' \
-               '{"createdAt":"0001-01-01T00:00:00Z","updatedAt":"0001-01-01T00:00:00Z","name":"memory_target","value":"8G","parameterType":"ADVISE_EDIT"},' \
-               '{"createdAt":"0001-01-01T00:00:00Z","updatedAt":"0001-01-01T00:00:00Z","name":"sga_max_size","value":"4G","parameterType":"ADVISE_EDIT"},' \
-               '{"createdAt":"0001-01-01T00:00:00Z","updatedAt":"0001-01-01T00:00:00Z","name":"sga_target","value":"4G","parameterType":"ADVISE_EDIT"},' \
+               '{"createdAt":"0001-01-01T00:00:00Z","updatedAt":"0001-01-01T00:00:00Z","name":"sga_max_size","value":"0","parameterType":"ADVISE_EDIT"},' \
+               '{"createdAt":"0001-01-01T00:00:00Z","updatedAt":"0001-01-01T00:00:00Z","name":"sga_target","value":"0","parameterType":"ADVISE_EDIT"},' \
                '{"createdAt":"0001-01-01T00:00:00Z","updatedAt":"0001-01-01T00:00:00Z","name":"db_cache_advice","value":"off","parameterType":"ADVISE_EDIT"},' \
-               '{"createdAt":"0001-01-01T00:00:00Z","updatedAt":"0001-01-01T00:00:00Z","name":"db_cache_size","value":"0","parameterType":"ADVISE_EDIT"},' \
-               '{"createdAt":"0001-01-01T00:00:00Z","updatedAt":"0001-01-01T00:00:00Z","name":"shared_pool_size","value":"0","parameterType":"ADVISE_EDIT"},' \
+               '{"createdAt":"0001-01-01T00:00:00Z","updatedAt":"0001-01-01T00:00:00Z","name":"db_cache_size","value":"4G","parameterType":"ADVISE_EDIT"},' \
+               '{"createdAt":"0001-01-01T00:00:00Z","updatedAt":"0001-01-01T00:00:00Z","name":"shared_pool_size","value":"3G","parameterType":"ADVISE_EDIT"},' \
                '{"createdAt":"0001-01-01T00:00:00Z","updatedAt":"0001-01-01T00:00:00Z","name":"streams_pool_size","value":"0","parameterType":"ADVISE_EDIT"},' \
                '{"createdAt":"0001-01-01T00:00:00Z","updatedAt":"0001-01-01T00:00:00Z","name":"java_pool_size","value":"0","parameterType":"ADVISE_EDIT"},' \
                '{"createdAt":"0001-01-01T00:00:00Z","updatedAt":"0001-01-01T00:00:00Z","name":"large_pool_size","value":"0","parameterType":"ADVISE_EDIT"},' \
-               '{"createdAt":"0001-01-01T00:00:00Z","updatedAt":"0001-01-01T00:00:00Z","name":"pga_aggregate_target","value":"2G","parameterType":"ADVISE_EDIT"},' \
+               '{"createdAt":"0001-01-01T00:00:00Z","updatedAt":"0001-01-01T00:00:00Z","name":"pga_aggregate_target","value":"1G","parameterType":"ADVISE_EDIT"},' \
                '{"createdAt":"0001-01-01T00:00:00Z","updatedAt":"0001-01-01T00:00:00Z","name":"open_cursors","value":"300","parameterType":"ADVISE_EDIT"},' \
                '{"createdAt":"0001-01-01T00:00:00Z","updatedAt":"0001-01-01T00:00:00Z","name":"remote_listener","value":"","parameterType":"ADVISE_EDIT"},' \
                '{"createdAt":"0001-01-01T00:00:00Z","updatedAt":"0001-01-01T00:00:00Z","name":"db_domain","value":"","parameterType":"ADVISE_EDIT"},' \
@@ -55,7 +53,7 @@ class VdbTest:
                '{"createdAt":"0001-01-01T00:00:00Z","updatedAt":"0001-01-01T00:00:00Z","name":"global_names","value":"FALSE","parameterType":"ADVISE_EDIT"},' \
                '{"createdAt":"0001-01-01T00:00:00Z","updatedAt":"0001-01-01T00:00:00Z","name":"local_listener","value":"","parameterType":"ADVISE_EDIT"},' \
                '{"createdAt":"0001-01-01T00:00:00Z","updatedAt":"0001-01-01T00:00:00Z","name":"open_links","value":"0","parameterType":"ADVISE_EDIT"},' \
-               '{"createdAt":"0001-01-01T00:00:00Z","updatedAt":"0001-01-01T00:00:00Z","name":"db_file_multiblock_read_count","value":"44","parameterType":"ADVISE_EDIT"},' \
+               '{"createdAt":"0001-01-01T00:00:00Z","updatedAt":"0001-01-01T00:00:00Z","name":"db_file_multiblock_read_count","value":"128","parameterType":"ADVISE_EDIT"},' \
                '{"createdAt":"0001-01-01T00:00:00Z","updatedAt":"0001-01-01T00:00:00Z","name":"fast_start_parallel_rollback","value":"LOW","parameterType":"ADVISE_EDIT"},' \
                '{"createdAt":"0001-01-01T00:00:00Z","updatedAt":"0001-01-01T00:00:00Z","name":"job_queue_processes","value":"0","parameterType":"ADVISE_EDIT"},' \
                '{"createdAt":"0001-01-01T00:00:00Z","updatedAt":"0001-01-01T00:00:00Z","name":"db_name","value":"%s","parameterType":"CANNOT_EDIT"},' \
@@ -103,13 +101,27 @@ class VdbTest:
             'actualresult': content, 'vdbName': self.params['vdbName']
         }
 
+    def test_vdb_start(self):
+        vdb_id = NEED_PARAMETER['vdb_' + self.params['dbName'] + '_id']
+        content = RequestMethod().to_requests(self.request_method, 'vdb/start/{}'.format(vdb_id))
+        return {
+            'actualresult': content
+        }
+
+    def test_vdb_stop(self):
+        vdb_id = NEED_PARAMETER['vdb_' + self.params['dbName'] + '_id']
+        content = RequestMethod().to_requests(self.request_method, 'vdb/stop/{}'.format(vdb_id))
+        return {
+            'actualresult': content
+        }
+
     def test_vdb_snapshot_add(self):
         # 添加VDB快照,先获取一次DEPT表内的时间戳
         snap_name = "快照 ".encode('utf-8').decode('latin1') + (time.strftime("%Y-%m-%d %H:%M:%S"))
         vdb_id_sql = 'select id,vdb_name from zdbm_orcl_virtual_dbs where open_mode="READ WRITE" and deleted_at is ' \
                      'null and db_name= "%s" order by id desc' % self.params['dbName']
         name = self.params['description'].encode('utf-8').decode('latin1')
-        vdb_id, vdb_name = ConnMysql().select_mysql(vdb_id_sql)
+        vdb_id, vdb_name = ConnMysql().select_mysql_new(vdb_id_sql, ac_re=True)
         data = '{"vdbID":%s,"name":"%s","description":"%s"}' % \
                (vdb_id, snap_name, name)
         content = RequestMethod().to_requests(self.request_method, 'vdb/snapshot/add', data=data)
@@ -194,9 +206,9 @@ class VdbTest:
     def test_v2p(self):
         # 通过vdb全量恢复源库
         # 先创建路径
-        GetLicense().linux_command('mkdir -p /home/oracle/v2p && rm -rf /home/oracle/v2p/*')
-        # 给予此文件夹添加所有人和组
-        GetLicense().linux_command('chown -R oracle:oinstall /home/oracle/v2p')
+        com = "cd {path}&&ls | grep {name} | xargs rm -rf && ps -ef | grep pmon_{name} | grep -v grep | awk {c} | xargs kill -9".format(path=MDB1_V2P_PATH, name=self.params['dbName'], c='{print $2}').replace("{", "'{").replace("}", "}'")
+        GetLicense().linux_command(com, ip=self.params['MDB_IP'], password=self.params['PWD'])
+        time.sleep(30)
         # 通过test_recovery_preset_by_vdb方法获得提交的参数
         parameters = self.test_recovery_preset_by_vdb()
         if json.loads(parameters['actualresult'])['data']['canParameters'] is None:

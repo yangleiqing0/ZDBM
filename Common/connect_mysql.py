@@ -12,11 +12,11 @@ class ConnMysql:
         cur = self.db.cursor()
         cur.execute(sql)
         r = cur.fetchall()
-        print("select_mysql select result:", r)
-        if _all:
-            return r
+        print("select_mysql select result:", r, type(r), sql)
         if r == ():
             return '查询结果为空',
+        if _all:
+            return r
         return r[0]
 
     def select_mysql_new(self, sql, one=True, ac_re=False):
@@ -26,20 +26,24 @@ class ConnMysql:
             r = cur.fetchone()
         else:
             r = cur.fetchall()
-        print("select_mysql_new select result:", r)
+        print("select_mysql_new select result:", r, type(r), sql)
+        if not ac_re:
+            r = r[0]
         if r == ():
             return '查询结果为空',
-
-        if ac_re:
-            return r
-        return r[0]
+        return r
 
     def operate_mysql(self, sql):
+        sql = sql.replace("None", 'null')
+        print("operate_mysql sql:", sql)
         cur = self.db.cursor()
         cur.execute(sql)
 
     def __del__(self):
-        self.db.commit()
+        try:
+            self.db.commit()
+        except Exception as err:
+            print("error:", err)
         self.db.close()
 
 
