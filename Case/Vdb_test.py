@@ -93,10 +93,10 @@ class VdbTest:
             if archive_time == 0:
                 content = self.params['vdbName']+'VDB状态是%s 非READ WRITE' % vdb_status
                 break
-            else:
-                archive_time -= 2
-                time.sleep(2)
-                continue
+            archive_time -= 2
+            time.sleep(2)
+
+        time.sleep(5)
         return {
             'actualresult': content, 'vdbName': self.params['vdbName']
         }
@@ -243,6 +243,8 @@ class VdbTest:
             else:
                 time.sleep(2)
                 continue
+        GetLicense().linux_command("killall sbt-server", ip=self.params['MDB_IP'], password=self.params['PWD'])
+        GetLicense().linux_command("lsof | grep datafile | awk '{ print $2}' | xargs kill -9", ip=self.params['MDB_IP'], password=self.params['PWD'])
 
         return {
             'actualresult': content

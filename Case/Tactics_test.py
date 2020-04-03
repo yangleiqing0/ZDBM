@@ -77,7 +77,7 @@ class TacticsTest:
               'where id ={}'.format(NEED_PARAMETER["vdb_expire_id"])
         self.mysql.operate_mysql(sql)
 
-    
+
 
 
 if __name__ == '__main__':

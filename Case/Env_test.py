@@ -15,6 +15,7 @@ class EnvTest:
         print(params)
         self.params = params
         self.request_method = self.params['request_method']
+        self.mysql = ConnMysql()
 
     def test_env_test(self):
         # 测试目标主机连通性
@@ -110,7 +111,7 @@ class EnvTest:
                      self.params['asMdb']
                    )
         query_env_id_sql = 'select id from zdbm_orcl_envs where env_name="%s" and isnull(deleted_at)' % self.params['envName']
-        old_database_value = ConnMysql().select_mysql(query_env_id_sql)[0]
+        old_database_value = self.mysql.select_mysql(query_env_id_sql)[0]
         content = RequestMethod().to_requests(self.request_method, 'env/add', data=data)
         result = json.loads(content)
         print('ENV ADD result is :', result)
@@ -119,7 +120,7 @@ class EnvTest:
         except Exception as e:
             print("清理环境报错: ", e)
             # DeleteWords().select_tables()
-            old_database_value = ConnMysql().select_mysql(query_env_id_sql)[0]
+            old_database_value = self.mysql.select_mysql(query_env_id_sql)[0]
             content = RequestMethod().to_requests(self.request_method, 'env/add', data=data)
             result = json.loads(content)
             print(result['data']['env'])
@@ -143,7 +144,7 @@ class EnvTest:
 
                  })
         print(NEED_PARAMETER)
-        new_database_value = ConnMysql().select_mysql(query_env_id_sql)[0]
+        new_database_value = self.mysql.select_mysql(query_env_id_sql)[0]
         print(old_database_value, type(old_database_value))
         return {
             'actualresult': content, 'old_database_value': 'id:' + old_database_value,
@@ -189,21 +190,21 @@ class EnvTest:
         time.sleep(2)
         while 1:
             try:
-                result = ConnMysql().select_mysql(sql)[0]
+                result = self.mysql.select_mysql(sql)[0]
             except AttributeError as e:
-                result = ConnMysql().select_mysql(sql)[0]
+                result = self.mysql.select_mysql(sql)[0]
             print("添加源库状态：", result, '时间过去：', 600-archive_time, '秒')
             archive_time -= 2
             if result == 'PROCESSING':
                 time.sleep(2)
                 continue
             elif result == 'FAILURE':
-                content = ConnMysql().select_mysql(content_sql)[0]
+                content = self.mysql.select_mysql(content_sql)[0]
                 break
             elif result == 'SUCCESS':
                 time.sleep(2)
                 while times > 0:
-                    status = ConnMysql().select_mysql(status_sql)[0]
+                    status = self.mysql.select_mysql(status_sql)[0]
                     print("归档状态：", status, '时间过去：', 600-times, '秒')
                     if status == 1:
                         break
@@ -223,23 +224,27 @@ class EnvTest:
         env_id = self.del_env_soft()
         content = RequestMethod().to_requests(self.request_method, 'env/fresh/{}'.format(env_id))
         print(content)
-
+        #
         sql = "select software_count from zdbm_orcl_envs where id={}".format(env_id)
-        new_database_value = ConnMysql().select_mysql(sql)[0]
+        time.sleep(2)
+        new_database_value = self.mysql.select_mysql(sql)[0]
         # print(new_database_value)
+        sql1 = 'delete from zdbm_orcl_env_softwares where env_id={} and deleted_at is null'.format(env_id)
+        sql2 = 'update zdbm_orcl_env_softwares set deleted_at =null where env_id={}'.format(env_id)
+        self.mysql.operate_mysql(sql1)
+        self.mysql.operate_mysql(sql2)
         return {
             'actualresult': content, 'old_database_value': 'mysql_value:' + str(0),
             'new_database_value': 'mysql_value:' + str(new_database_value), 'database_assert_method': False
         }
 
-    @staticmethod
-    def del_env_soft():
+    def del_env_soft(self):
         select_sql = "select id, env_name from zdbm_orcl_envs where deleted_at is null"
-        env_id, env_name = ConnMysql().select_mysql(select_sql, True)[-1]
+        env_id, env_name = self.mysql.select_mysql(select_sql, True)[-1]
         del_sql = "update zdbm_orcl_env_softwares set deleted_at='2020-03-18 17:28:50' where env_id={}".format(env_id)
-        update_count_sql = "update zdbm_orcl_envs set software_count=0 where env_name='{}'".format(env_name)
-        ConnMysql().operate_mysql(del_sql)
-        ConnMysql().operate_mysql(update_count_sql)
+        update_count_sql = "update zdbm_orcl_envs set software_count=0 where id='{}'".format(env_id)
+        self.mysql.operate_mysql(del_sql)
+        self.mysql.operate_mysql(update_count_sql)
         return env_id
 
 

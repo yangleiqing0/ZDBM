@@ -9,15 +9,16 @@ class Report:
         return wd.add_format(option)
     # 设置居中
 
-    def get_format_center(self,wb,num=1):
-        return wb.add_format({'align': 'center','valign': 'vcenter','border':num,'text_wrap':1})
+    def get_format_center(self,wb,num=1, color='block'):
+        # block  蓝色
+        return wb.add_format({'align': 'center','valign': 'vcenter','border':num,'text_wrap':1, 'color': color})
 
     def set_border_(self,wb, num=1):
         return wb.add_format({}).set_border(num)
     # 写数据
 
-    def write_center(self,worksheet, cl, data, wb):
-        return worksheet.write(cl, data, self.get_format_center(wb))
+    def write_center(self,worksheet, cl, data, wb, color='block'):
+        return worksheet.write(cl, data, self.get_format_center(wb, color=color))
 
     def init(self,data,data1,score):
         self.workbook = xlsxwriter.Workbook('../Data/%s.xlsx' % TEST_REPORT_EXCEL_NAME)
@@ -129,7 +130,10 @@ class Report:
             self.write_center(self.worksheet2,"F"+str(temp), item["t_actual"], self.workbook)
             self.write_center(self.worksheet2,"G"+str(temp), item["old_database_value"], self.workbook)
             self.write_center(self.worksheet2, "H" + str(temp), item["new_database_value"], self.workbook)
-            self.write_center(self.worksheet2, "I" + str(temp), item["t_result"], self.workbook)
+            if item["t_result"] != "测试成功":
+                self.write_center(self.worksheet2, "I" + str(temp), item["t_result"], self.workbook, color='red')
+            else:
+                self.write_center(self.worksheet2, "I" + str(temp), item["t_result"], self.workbook)
             temp = temp-1
 
         self.worksheet.hide_gridlines(2)    # 隐藏网格线

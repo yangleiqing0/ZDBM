@@ -1,5 +1,6 @@
 # 所有文件的参数配置
-NEED_PARAMETER = {"increment_source_id": 8, 't12.1_node_id': 9, 't12.1_id': 9, 't12.1_softwares_id': 10, 't12.1_auto_database_id': 15, 't12.1_yang_database_id': 16, 't12.1_orcl_database_id': 17, 'm12.209_node_id': 10, 'm12.209_id': 10, 'm12.209_softwares_id': 11, 't12.1_yang_source_id': 7, 't12.1_auto_source_id': 6, 'm12.201_node_id': 11, 'm12.201_id': 11, 'm12.201_softwares_id': 12, 't12.1_auto_vdb_id': 8, 't12.1_yang_vdb_id': 9, 'vdb_auto_name': 'vdb_BX3I', 'snapshot_auto_id': 5, 'vdb_auto_id': 8, 'vdb_yang_name': 'vdb_qknL', 'snapshot_yang_id': 6, 'vdb_yang_id': 9}
+NEED_PARAMETER = {}
+
 TEST_REPORT_EXCEL_NAME = 'ZDBM_test_report'
 TEST_REPORT_TXT_NAME = 'ZDBM_test_result'
 TEST_TITLE_NAME = 'ZDBM接口测试'
@@ -27,6 +28,7 @@ O_PWD = "oracle"
 
 # 默认存放zdbm.license在80服务器上
 ZDBM_LICENSE_COMPANY_IP = '192.168.12.10'
+
 ZDBM_LICENSE_PORT = '22222'
 ZDBM_LICENSE_ROOT = 'root'
 ZDBM_LICENSE_PASSWORD = 'root1234'
@@ -41,7 +43,7 @@ YL_PHONE = '18200585160'
 # ZDBM版本信息
 # ZDBM_VERSION = '1.0.12'
 # ZDBM_VERSION = '1.0.14'
-ZDBM_VERSION = '2.1.3'
+ZDBM_VERSION = '2.1.4'
 
 # 存放zdbm包的地址
 ZDBM_PACKAGE_IP = '192.168.12.10'
@@ -52,7 +54,7 @@ ZDBM_PACKAGE_PWD = 'root1234'
 # ZDBM_PACKAGE_NAME = '/soft/zdbm/zdbm-package/v{}/zdbm*.t'.format(ZDBM_VERSION)
 # ZDBM_PACKAGE_NAME = '/var/lib/jenkins/workspace/zdbm_auto_page/zdbm-*.tar.gz'
 # ZDBM_PACKAGE_NAME = '/var/lib/jenkins/workspace/Zdbm2.0/zdbm-*.tar.gz'
-ZDBM_PACKAGE_NAME = '/soft/zdbm/zdbm-package/v{}/zdbm-202003201511-v2.1.3.rc2.pro.tar.gz'.format(ZDBM_VERSION)
+ZDBM_PACKAGE_NAME = '/soft/zdbm/zdbm-package/v{}/zdbm-202004031238-v2.1.4.rc1.tar.gz'.format(ZDBM_VERSION)
 ZDBM_PACKAGE_NAME_TAR = ZDBM_PACKAGE_NAME.split('/')[-1]
 MY_JENKINS_NAME = 'myjenkins.tar'
 # Install_Data = 'auto_install_1014.sh'

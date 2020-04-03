@@ -38,12 +38,12 @@ class ConnMysql:
         print("operate_mysql sql:", sql)
         cur = self.db.cursor()
         cur.execute(sql)
-
-    def __del__(self):
         try:
             self.db.commit()
         except Exception as err:
             print("error:", err)
+
+    def __del__(self):
         self.db.close()
 
 

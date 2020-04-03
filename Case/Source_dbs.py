@@ -119,8 +119,10 @@ class SourceDbs:
         time.sleep(5)
         update_sql = "update zdbm_orcl_source_db_archives a  INNER JOIN (" \
                      "select id from zdbm_orcl_source_db_archives where source_id={} " \
-                     "order by next_scn desc limit 1) b on a.id = b.id set a.name='',a.arch_status='WAITING'".format(source_id)
+                     "order by next_scn desc limit 1) b on a.id = b.id set a.name='',a.arch_status='BACKUP_ERROR'," \
+                     "a.backup_status='SOURCE_LOSE'".format(source_id)
         ConnMysql().operate_mysql(update_sql)
+        time.sleep(5)
         content = RequestMethod().to_requests(self.request_method, "source/increment/check/{}".format(source_id))
         print(content)
         NEED_PARAMETER["increment_source_id"] = source_id
