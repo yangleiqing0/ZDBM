@@ -1,6 +1,7 @@
 # 所有文件的参数配置
 NEED_PARAMETER = {}
 
+
 TEST_REPORT_EXCEL_NAME = 'ZDBM_test_report'
 TEST_REPORT_TXT_NAME = 'ZDBM_test_result'
 TEST_TITLE_NAME = 'ZDBM接口测试'
@@ -43,7 +44,8 @@ YL_PHONE = '18200585160'
 # ZDBM版本信息
 # ZDBM_VERSION = '1.0.12'
 # ZDBM_VERSION = '1.0.14'
-ZDBM_VERSION = '2.1.4'
+ZDBM_VERSION = '2.1.3'
+# ZDBM_VERSION = '2.1.4'
 
 # 存放zdbm包的地址
 ZDBM_PACKAGE_IP = '192.168.12.10'
@@ -54,11 +56,17 @@ ZDBM_PACKAGE_PWD = 'root1234'
 # ZDBM_PACKAGE_NAME = '/soft/zdbm/zdbm-package/v{}/zdbm*.t'.format(ZDBM_VERSION)
 # ZDBM_PACKAGE_NAME = '/var/lib/jenkins/workspace/zdbm_auto_page/zdbm-*.tar.gz'
 # ZDBM_PACKAGE_NAME = '/var/lib/jenkins/workspace/Zdbm2.0/zdbm-*.tar.gz'
-ZDBM_PACKAGE_NAME = '/soft/zdbm/zdbm-package/v{}/zdbm-202004031238-v2.1.4.rc1.tar.gz'.format(ZDBM_VERSION)
+ZDBM_PACKAGE_NAME = '/soft/zdbm/zdbm-package/v{}/zdbm-202004301029-v2.1.3.rc12.tar.gz'.format(ZDBM_VERSION)
 ZDBM_PACKAGE_NAME_TAR = ZDBM_PACKAGE_NAME.split('/')[-1]
 MY_JENKINS_NAME = 'myjenkins.tar'
+CENTOS_PRE_INSTALL_NAME = 'zdbm_pre_install.sh'
+RHEL_PRE_INSTALL_NAME = 'zdbm_pre_install_rhel.sh'
+CENTOS_INSTSALL_NAME = 'zdbm_install.sh'
+RHEL_INSTALL_NAME = 'zdbm_install_rhel.sh'
 # Install_Data = 'auto_install_1014.sh'
+# v2.1.4 之前
 Install_Data = 'auto_install_2000.sh'
+# Install_Data = 'auto_install_2140.sh'
 # test_license_update_name
 LICENSE_UPDATE_NAME = 'testD'
 

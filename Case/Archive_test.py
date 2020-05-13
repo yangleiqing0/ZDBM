@@ -27,7 +27,7 @@ class ArchiveTest:
         _id = random.randint(10000, 99999)
         archive[0] = _id
         archive[1] = archive[2] = archive[12] = archive[13] = archive[25] = archive[26] = archive[27] = \
-            archive[28] = archive[29] = archive[30] = now
+            archive[28] = archive[29] = archive[30] = archive[31] = now
         archive[10] += 2
         insert_sql = "insert into zdbm_orcl_source_db_archives values {}".format(tuple(archive))
         ConnMysql().operate_mysql(insert_sql)

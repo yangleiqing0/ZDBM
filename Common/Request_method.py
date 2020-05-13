@@ -41,6 +41,7 @@ class RequestMethod:
             content = self.session.delete(url, headers=self.headers, data=data, verify=False).text
         else:
             content = '未知的请求方法'
+        print("请求结果:", content)
         return content
 
 

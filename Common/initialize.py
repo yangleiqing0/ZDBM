@@ -21,7 +21,7 @@ class Initialize:
             '/usr/local/bin/docker-compose -f /opt/zdbm/config/docker-compose.yaml up -d && docker restart zdbm')
         print('将zdbm的mysql端口暴露')
 
-        sql = 'insert into zdbm_users values(2,"2019-05-17 09:15:37","2019-05-17 09:15:37",NULL,"yanglei",' \
+        sql = 'insert into zdbm_users values(999,"2019-05-17 09:15:37","2019-05-17 09:15:37",NULL,"yanglei",' \
               '"$2a$10$j0c7si1lQucFAUXIGysyWel4GB0RpEy3maVz2bW.7u5zuhy5JfaaS",NULL,"1@qq.com",NULL,1,0) '
         ConnMysql().operate_mysql(sql)
         print('预设置用户yanglei')
