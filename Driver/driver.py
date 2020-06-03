@@ -37,8 +37,8 @@ class Driver:
             book = xlrd.open_workbook(table)
             for s in range((len(book.sheets()))):
                 sheet = book.sheets()[s]
-                # for i in range(31, 33):
-                for i in range(1, sheet.nrows):
+                for i in range(28, 29):
+                # for i in range(1, sheet.nrows):
                     lis = sheet.row_values(i)
                     print("第{}次，参数为{}".format(i, lis))
                     print(lis[5])

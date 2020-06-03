@@ -16,7 +16,7 @@ class ConnOracle:
         self.c = self.conn.cursor()  # 获取cursor
 
     def init_system(self):
-        self.conn = cx_Oracle.connect("system", "root1234", self.to)
+        self.conn = cx_Oracle.connect("system", "system", self.to)
         self.c = self.conn.cursor()
 
     def selcet_oracle(self, sql):

@@ -66,9 +66,10 @@ class GetLicense:
             print(e)
 
     def linux_command_return(self, com, ip=IP, port=SSH_PORT, password=O_PWD, username=O_USER):
-        self.ssh.connect(ip, port=port, username=username, password=password)
         print("连接ssh:", ip, port, password)
         print("com命令:", com)
+        self.ssh.connect(ip, port=port, username=username, password=password)
+
         try:
             ssh_stdin, ssh_stdout, ssh_stderr = self.ssh.exec_command(com)
             stout = ssh_stdout.readlines()

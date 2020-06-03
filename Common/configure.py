@@ -1,22 +1,21 @@
 # 所有文件的参数配置
 NEED_PARAMETER = {}
 
-
 TEST_REPORT_EXCEL_NAME = 'ZDBM_test_report'
 TEST_REPORT_TXT_NAME = 'ZDBM_test_result'
 TEST_TITLE_NAME = 'ZDBM接口测试'
 # 用于分割txt内的内容
 # 服务器配置
-IP = '192.168.12.209'
+IP = '192.168.12.223'
 PORT = '40010'
 GATEWAY = '61.139.2.69'
 USERNAME = 'yanglei'
 PASSWORD = 'yanglei1'
 SSH_PORT = '22'
-SERVER_NAME = 'm12.209'
+SERVER_NAME = 'm12.223'
 ROOT_NAME = 'root'
 ROOT_PASSWORD = 'root1234'
-ROOT_PASSWORD_123 = 'root123'
+ROOT_PASSWORD_123 = 'root1234'
 NEWPASSWORD = 'yanglei2'
 SCR_PASSWORD = '$2a$10$YspahrSiuR.w8HShr4mgLOqz604DOGw/zFmRZrlONcJyrLhEYWt1m'
 ORACLE_USER = 'oracle'
@@ -44,7 +43,7 @@ YL_PHONE = '18200585160'
 # ZDBM版本信息
 # ZDBM_VERSION = '1.0.12'
 # ZDBM_VERSION = '1.0.14'
-ZDBM_VERSION = '2.1.3'
+ZDBM_VERSION = '2.1.0'
 # ZDBM_VERSION = '2.1.4'
 
 # 存放zdbm包的地址
@@ -56,7 +55,7 @@ ZDBM_PACKAGE_PWD = 'root1234'
 # ZDBM_PACKAGE_NAME = '/soft/zdbm/zdbm-package/v{}/zdbm*.t'.format(ZDBM_VERSION)
 # ZDBM_PACKAGE_NAME = '/var/lib/jenkins/workspace/zdbm_auto_page/zdbm-*.tar.gz'
 # ZDBM_PACKAGE_NAME = '/var/lib/jenkins/workspace/Zdbm2.0/zdbm-*.tar.gz'
-ZDBM_PACKAGE_NAME = '/soft/zdbm/zdbm-package/v{}/zdbm-202004301029-v2.1.3.rc12.tar.gz'.format(ZDBM_VERSION)
+ZDBM_PACKAGE_NAME = '/soft/zdbm/zdbm-package/v{}/zdbm-201912101737-v2.1.0-rc1.tar.gz'.format(ZDBM_VERSION)
 ZDBM_PACKAGE_NAME_TAR = ZDBM_PACKAGE_NAME.split('/')[-1]
 MY_JENKINS_NAME = 'myjenkins.tar'
 CENTOS_PRE_INSTALL_NAME = 'zdbm_pre_install.sh'
@@ -118,9 +117,9 @@ OR11204RAC_SYS_USER = 'oracle'
 OR11204RAC_NAME = 'rac12.151'
 OR11204RAC_GRID_HOME = '/u01/app/grid/11204'
 
-# 目标中间环境192.168.12.209
-MDB1_IP = '192.168.12.209'
-MDB1_NAME = 'm12.209'
+# 目标中间环境192.168.12.223
+MDB1_IP = '192.168.12.223'
+MDB1_NAME = 'm12.223'
 MDB1_PORT = '22'
 MDB1_USER = 'oracle'
 MDB1_ORACLE_PORT = '1521'
@@ -141,9 +140,9 @@ MDB4_IP = '192.168.12.10'
 MDB4_NAME = 'm12.10'
 MDB4_USER = 'oracle'
 MDB4_PORT = 22222
-# 目标中间环境 192.168.12.201
-MDB5_IP = '192.168.12.201'
-MDB5_NAME = 'm12.201'
+# 目标中间环境 192.168.15.61
+MDB5_IP = '192.168.15.61'
+MDB5_NAME = 'm15.61'
 MDB5_USER = 'oracle'
 MDB5_PORT = 22
 # 目标中间环境 192.168.12.41
