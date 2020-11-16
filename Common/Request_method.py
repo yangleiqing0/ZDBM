@@ -18,6 +18,7 @@ class RequestMethod:
         url = 'https://{}:{}/api/login'.format(IP, PORT)
         data = '{"username":"%s","password":"%s","captchaID":"","captchaText":""}' % (USERNAME, PASSWORD)
         login_html = self.session.post(url, data, headers=self.headers, verify=False).text
+        print(login_html, data, url)
         self.get_token(login_html)
 
     def get_token(self, login_html):
@@ -25,16 +26,20 @@ class RequestMethod:
         token = login_html['data']['token']
         self.headers.update({'token': token})
 
-    def to_requests(self, request_method, route, data=None, isneedlogin=True):
+    def to_requests(self, request_method, route, data=None, isneedlogin=True, headers=None, files=None) -> str:
         url = 'https://{}:{}/api/{}'.format(IP, PORT, route)
-        data = '{}'.format(data)
-        print(url, request_method, data, isneedlogin)
+        if data:
+            data = '{}'.format(data)
+
         if isneedlogin:
             self.login()
+        if headers:
+            self.headers.update(headers)
+        print(url, request_method, data, isneedlogin, self.headers)
         if request_method == 'get':
             content = self.session.get(url, headers=self.headers, verify=False).text
         elif request_method == 'post':
-            content = self.session.post(url, headers=self.headers, data=data, verify=False).text
+            content = self.session.post(url, headers=self.headers, data=data, files=files, verify=False).text
         elif request_method == 'put':
             content = self.session.put(url, headers=self.headers, data=data, verify=False).text
         elif request_method == 'delete':

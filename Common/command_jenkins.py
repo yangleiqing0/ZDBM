@@ -1,7 +1,7 @@
 import time
 import jenkins
 from Common.configure import *
-from Common.get_license import GetLicense
+from Common.get_license import Linux
 from Common.configure import ZDBM_VERSION
 
 

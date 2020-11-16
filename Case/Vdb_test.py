@@ -5,8 +5,9 @@ from Common.Request_method import RequestMethod
 from Common.connect_mysql import ConnMysql
 from Common.connect_oracle import ConnOracle
 from Common.configure import *
-from Common.get_license import GetLicense
+from Common.get_license import Linux
 from utils import look_select, wait_for
+from requests_toolbelt.multipart.encoder import MultipartEncoder
 
 
 class VdbTest:
@@ -20,12 +21,16 @@ class VdbTest:
         #  添加VDB
         env_tag_name_sql = 'select tag from zdbm_orcl_envs where id=%s and deleted_at is null'% NEED_PARAMETER[self.params['MDB_NAME'] + '_id']
         env_tag_name = ConnMysql().select_mysql(env_tag_name_sql)[0]
-        TAGNAME = ORACLE_TOOLPATH+'/'+env_tag_name
-        vdbName = "vdb_" + self.params['vdbName']
-        print('路径', TAGNAME)
+        tag_name = ORACLE_TOOLPATH+'/'+env_tag_name
+        vdb_name = "vdb_" + self.params['vdbName']
+        print('路径', tag_name)
         time.sleep(1)
-        TIME_STAMP_sql = 'select full_backup_ended_at from zdbm_orcl_source_dbs where db_name="%s" and deleted_at is null' % self.params['dbName']
-        TIME_STAMP = ConnMysql().select_mysql(TIME_STAMP_sql)[0]
+        time_stamp_sql = 'select full_backup_ended_at from zdbm_orcl_source_dbs where db_name="%s" ' \
+                         'and deleted_at is null' % self.params['dbName']
+        time_stamp = ConnMysql().select_mysql(time_stamp_sql)[0]
+        if self.params.get("isRedo"):
+            time_stamp = NEED_PARAMETER["{}_{}_end_time".format(
+                self.params["envName"], self.params["dbName"])]
         word = "白银".encode('utf-8').decode('latin1')
         data = '{"envID":%s,"softwareID":%s,"sourceID":%s,"timestamp":"%s","vdbName":"%s",' \
                '"tacticParam":{"name":"%s_%s","vdbRetainDay":60,"snapshotIntervalHour":12,"snapshotRetainDay":60},"contactID":0,"parameters":' \
@@ -71,18 +76,23 @@ class VdbTest:
                '{"createdAt":"0001-01-01T00:00:00Z","updatedAt":"0001-01-01T00:00:00Z","name":"remote_login_passwordfile","value":"EXCLUSIVE","parameterType":"CANNOT_EDIT"},' \
                '{"createdAt":"0001-01-01T00:00:00Z","updatedAt":"0001-01-01T00:00:00Z","name":"instance_number","value":"1","parameterType":"CANNOT_EDIT"},' \
                '{"createdAt":"0001-01-01T00:00:00Z","updatedAt":"0001-01-01T00:00:00Z","name":"cluster_database","value":"FALSE","parameterType":"CANNOT_EDIT"},' \
-               '{"createdAt":"0001-01-01T00:00:00Z","updatedAt":"0001-01-01T00:00:00Z","name":"thread","value":"0","parameterType":"CANNOT_EDIT"}]}' % \
+               '{"createdAt":"0001-01-01T00:00:00Z","updatedAt":"0001-01-01T00:00:00Z","name":"thread","value":"0","parameterType":"CANNOT_EDIT"}]' % \
                (
                 NEED_PARAMETER[self.params['MDB_NAME'] + '_id'], NEED_PARAMETER[self.params['MDB_NAME'] + '_softwares_id'],
-                NEED_PARAMETER[self.params['envName'] +'_'+self.params['dbName'] + '_source_id'],TIME_STAMP, vdbName, word, vdbName, TAGNAME,vdbName,self.params['dbName'], TAGNAME, vdbName, vdbName, vdbName,
-                TAGNAME, vdbName, TAGNAME, vdbName, TAGNAME, vdbName, TAGNAME, vdbName
+                NEED_PARAMETER[self.params['envName'] + '_' + self.params['dbName'] + '_source_id'], time_stamp,
+                vdb_name, word, vdb_name, tag_name, vdb_name, self.params['dbName'], tag_name, vdb_name, vdb_name,
+                vdb_name, tag_name, vdb_name, tag_name, vdb_name, tag_name, vdb_name, tag_name, vdb_name
                 )
+        if self.params.get("isArchiveLog"):
+            data += ", \"isArchiveLog\": true"
+        data += '}'
         content = RequestMethod().to_requests(self.request_method, 'vdb/add', data=data)
         result = json.loads(content)
         NEED_PARAMETER.update({
             self.params['envName'] + '_' + self.params['dbName'] + '_vdb_id': result['data']['vdb']['id']
         })
-        vdb_status_sql = 'select open_mode from zdbm_orcl_virtual_dbs where id=%s' % NEED_PARAMETER[self.params['envName'] + '_' + self.params['dbName'] + '_vdb_id']
+        vdb_status_sql = 'select open_mode from zdbm_orcl_virtual_dbs where id=%s' % \
+                         NEED_PARAMETER[self.params['envName'] + '_' + self.params['dbName'] + '_vdb_id']
         archive_time = 5 * 60  # 5分钟
         time.sleep(2)
         while 1:
@@ -118,7 +128,7 @@ class VdbTest:
     def test_vdb_snapshot_add(self):
         # 添加VDB快照,先获取一次DEPT表内的时间戳
         snap_name = "快照 ".encode('utf-8').decode('latin1') + (time.strftime("%Y-%m-%d %H:%M:%S"))
-        vdb_id_sql = 'select id,vdb_name from zdbm_orcl_virtual_dbs where open_mode="READ WRITE" and deleted_at is ' \
+        vdb_id_sql = 'select id,vdb_name from zdbm_orcl_virtual_dbs where vdb_status="RUNNING" and deleted_at is ' \
                      'null and db_name= "%s" order by id desc' % self.params['dbName']
         name = self.params['description'].encode('utf-8').decode('latin1')
         vdb_id, vdb_name = ConnMysql().select_mysql_new(vdb_id_sql, ac_re=True)
@@ -207,8 +217,8 @@ class VdbTest:
         # 通过vdb全量恢复源库
         # 先创建路径
         com = "cd {path}&&ls | grep {name} | xargs rm -rf && ps -ef | grep pmon_{name} | grep -v grep | awk {c} | xargs kill -9".format(path=MDB1_V2P_PATH, name=self.params['dbName'], c='{print $2}').replace("{", "'{").replace("}", "}'")
-        GetLicense().linux_command(com, ip=self.params['MDB_IP'], password=self.params['PWD'])
-        GetLicense().linux_command("killall sbt-server", ip=self.params['MDB_IP'], password=self.params['PWD'])
+        Linux().linux_command(com, ip=self.params['MDB_IP'], password=self.params['PWD'])
+        Linux().linux_command("killall sbt-server", ip=self.params['MDB_IP'], password=self.params['PWD'])
         time.sleep(30)
         # 通过test_recovery_preset_by_vdb方法获得提交的参数
         parameters = self.test_recovery_preset_by_vdb()
@@ -243,8 +253,59 @@ class VdbTest:
             else:
                 time.sleep(2)
                 continue
-        GetLicense().linux_command("killall sbt-server", ip=self.params['MDB_IP'], password=self.params['PWD'])
-        GetLicense().linux_command("lsof | grep datafile | awk '{ print $2}' | xargs kill -9", ip=self.params['MDB_IP'], password=self.params['PWD'])
+        Linux().linux_command("killall sbt-server", ip=self.params['MDB_IP'], password=self.params['PWD'])
+        Linux().linux_command("lsof | grep datafile | awk '{ print $2}' | xargs kill -9", ip=self.params['MDB_IP'], password=self.params['PWD'])
+
+        return {
+            'actualresult': content
+        }
+
+    def test_vdb_upload_script(self):
+        filename = 'test.sh'
+
+        multipart_encoder = MultipartEncoder(
+
+            fields={
+                # 这里根据服务器需要的参数格式进行修改
+
+                'file': (filename, open(r'C:\Users\yl\Desktop\{}'.format(filename), "rb"), "text/x-sh")
+            }
+        )
+        headers = {"Content-Type":  multipart_encoder.content_type}
+        content = RequestMethod().to_requests(self.request_method, 'upload/vdb/script', headers=headers,
+                                              data=multipart_encoder.read().decode('utf-8'))
+        result = json.loads(content)
+        NEED_PARAMETER.update({"vdb_script_name": result['data']['filename'],
+                               "vdb_script_file_name": filename})
+        return {
+            'actualresult': content
+        }
+
+    def test_vdb_download_scripts(self):
+        script_name = NEED_PARAMETER['vdb_script_name']
+        content = RequestMethod().to_requests(self.request_method, 'download/vdb/script/{}'.format(script_name))
+
+        return {
+            'actualresult': content
+        }
+
+    def test_vdb_update_script(self):
+        vdb_id_sql = "select id from zdbm_orcl_virtual_dbs where deleted_at is null limit 1"
+        script_name, file_name = NEED_PARAMETER['vdb_script_name'], NEED_PARAMETER['vdb_script_file_name']
+        vdb_id = ConnMysql().select_mysql_new(vdb_id_sql)
+        NEED_PARAMETER.update({"vdb_script_id": vdb_id})
+        data = '{"scriptFile": "%s","scriptName": "%s"}' % (script_name, file_name)
+        content = RequestMethod().to_requests(
+            self.request_method, 'vdb/script/update/{}'.format(vdb_id), data=data)
+
+        return {
+            'actualresult': content
+        }
+
+    def test_vdb_delete_script(self):
+        vdb_script_id = NEED_PARAMETER['vdb_script_id']
+        content = RequestMethod().to_requests(
+            self.request_method, 'vdb/script/delete/{}'.format(vdb_script_id))
 
         return {
             'actualresult': content
@@ -252,4 +313,7 @@ class VdbTest:
 
 
 if __name__ == '__main__':
-    VdbTest({"request_method": "put"}).test_vdb_refresh()
+    VdbTest({"request_method": "post"}).test_vdb_upload_script()
+    VdbTest({"request_method": "get"}).test_vdb_download_scripts()
+    VdbTest({"request_method": "put"}).test_vdb_update_script()
+    VdbTest({"request_method": "delete"}).test_vdb_delete_script()

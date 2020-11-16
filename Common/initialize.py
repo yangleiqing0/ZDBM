@@ -1,6 +1,6 @@
 from Common.Auto_install import AutoInstall
 from Common.connect_mysql import ConnMysql
-from Common.get_license import GetLicense
+from Common.get_license import Linux
 
 
 class Initialize:
@@ -15,7 +15,7 @@ class Initialize:
     @staticmethod
     def reset_mysql():
         # 将docker-compose文件的mysql的端口设置为3306映射容器内的3306，然后重新加载通过docker-compose文件更新mysql
-        GetLicense().linux_command(
+        Linux().linux_command(
             'cd /opt/zdbm/config && sed -i "51c     ports:"   docker-compose.yaml &&  sed -i "51s/^/    &/" docker-compose.yaml &&'
             'sed -i "52c        - 3306:3306"   docker-compose.yaml &&  sed -i "52s/^/    &/" docker-compose.yaml &&'
             '/usr/local/bin/docker-compose -f /opt/zdbm/config/docker-compose.yaml up -d && docker restart zdbm')
@@ -29,7 +29,7 @@ class Initialize:
 
 if __name__ == '__main__':
     # Initialize().reset_mysql()
-    GetLicense().linux_command(
+    Linux().linux_command(
         'cd /opt/zdbm/config && sed -i "51c     ports:"   docker-compose.yaml &&  sed -i "51s/^/    &/" docker-compose.yaml &&'
         'sed -i "52c        - 3306:3306"   docker-compose.yaml &&  sed -i "52s/^/    &/" docker-compose.yaml &&'
         '/usr/local/bin/docker-compose -f /opt/zdbm/config/docker-compose.yaml up -d && docker restart zdbm',

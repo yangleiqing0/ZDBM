@@ -3,7 +3,7 @@ import json
 from Common.connect_mysql import ConnMysql
 from Common.configure import *
 from Case.Env_test import EnvTest
-from Common.get_license import GetLicense
+from Common.get_license import Linux
 from Common.CLEARE_ENV import ClearEnv as Ce
 from Common.Request_method import RequestMethod
 from Common.Command import *
@@ -28,28 +28,43 @@ class SourceDbs:
             'actualresult': content
         }
 
+    def test_source_get(self):
+        # 获取源库信息
+        content = RequestMethod().to_requests(
+            self.request_method, 'source/get/{}'.format(NEED_PARAMETER["{}_{}_source_id".format(
+                self.params["envName"], self.params["dbName"])]))
+        result = json.loads(content)
+        if result.get("data") and result["data"].get("source") and result["data"]["source"].get("endTime"):
+            end_time = result["data"]["source"]["endTime"][:19].replace("T", " ")
+            print(end_time)
+            NEED_PARAMETER.update({"{}_{}_end_time".format(
+                self.params["envName"], self.params["dbName"]): end_time})
+        return {
+            'actualresult': content
+        }
+
     def source_archive(self):
         # 源库开启关闭归档
         shutdwn_oracle = 'echo "shutdown immediate\n exit" > /home/oracle/shutdowntest.sql &&source /home/oracle/.bash_' \
                          'profile && export ORACLE_SID=%s' \
                       '&&sqlplus / as sysdba @/home/oracle/shutdowntest.sql ' % self.params['dbName']
-        GetLicense().linux_command(com=shutdwn_oracle, ip=self.params['ORACLE_IP'], username=ORACLE_USER, password=ORACLE_PWD)
+        Linux().linux_command(com=shutdwn_oracle, ip=self.params['ORACLE_IP'], username=ORACLE_USER, password=ORACLE_PWD)
 
         startup_oracle = 'echo "startup mount\n exit" > /home/oracle/startuptest.sql &&' \
                          'source /home/oracle/.bash_profile && export ORACLE_SID=%s' \
                          '&&sqlplus / as sysdba @/home/oracle/startuptest.sql ' % self.params['dbName']
-        GetLicense().linux_command(com=startup_oracle, ip=self.params['ORACLE_IP'], username=ORACLE_USER,
+        Linux().linux_command(com=startup_oracle, ip=self.params['ORACLE_IP'], username=ORACLE_USER,
                                    password=ORACLE_PWD)
 
         alter_oracle = 'echo "alter database %s;\n exit" > /home/oracle/alteroracletest.sql &&' \
                          'source /home/oracle/.bash_profile && export ORACLE_SID=%s' \
                          '&&sqlplus / as sysdba @/home/oracle/alteroracletest.sql ' % (self.params['archivemode'],self.params['dbName'])
-        GetLicense().linux_command(com=alter_oracle, ip=self.params['ORACLE_IP'], username=ORACLE_USER,
+        Linux().linux_command(com=alter_oracle, ip=self.params['ORACLE_IP'], username=ORACLE_USER,
                                password=ORACLE_PWD)
         open_oracle = 'echo "alter database open;\n exit" > /home/oracle/opentest.sql &&' \
                        'source /home/oracle/.bash_profile && export ORACLE_SID=%s' \
                        '&&sqlplus / as sysdba @/home/oracle/opentest.sql ' % self.params['dbName']
-        GetLicense().linux_command(com=open_oracle, ip=self.params['ORACLE_IP'], username=ORACLE_USER,
+        Linux().linux_command(com=open_oracle, ip=self.params['ORACLE_IP'], username=ORACLE_USER,
                                    password=ORACLE_PWD)
         node, all_online = Ce(IP).listen_nodes_online()
         content = self.test_source()
@@ -65,7 +80,7 @@ class SourceDbs:
                        'source /home/oracle/.bash_profile && export ORACLE_SID=%s' \
                        '&&sqlplus / as sysdba @/home/oracle/forcelogtest.sql ' % (
                        self.params['forcelogmode'], self.params['dbName'])
-        GetLicense().linux_command(com=forcelog_oracle, ip=self.params['ORACLE_IP'], username=ORACLE_USER,
+        Linux().linux_command(com=forcelog_oracle, ip=self.params['ORACLE_IP'], username=ORACLE_USER,
                                    password=ORACLE_PWD)
         content = self.test_source()
         return {
@@ -80,7 +95,7 @@ class SourceDbs:
         # 环境的监听启动状态
         Ce().login()
         lsnrctl_status_com = '%s && lsnrctl %s' % (ORACLE_HOME_COMMAND, self.params['lsnrctl_status'])
-        GetLicense().linux_command(com=lsnrctl_status_com, ip=self.params['ip'], username=ORACLE_USER,
+        Linux().linux_command(com=lsnrctl_status_com, ip=self.params['ip'], username=ORACLE_USER,
                                    password=ORACLE_PWD)
 
         content = EnvTest(params=self.params).test_env_test()['actualresult']
@@ -114,7 +129,7 @@ class SourceDbs:
         select_source_id_sql = "select id from zdbm_orcl_source_dbs where deleted_at is null and db_name='{}'".format(db_name)
         source_id = ConnMysql().select_mysql_new(select_source_id_sql)
         sql = "alter system archive log current"
-        GetLicense().linux_oracle(sql, db_name, self.params["ip"])
+        Linux().linux_oracle(sql, db_name, self.params["ip"])
         print(source_id, db_name)
         time.sleep(5)
         update_sql = "update zdbm_orcl_source_db_archives a  INNER JOIN (" \

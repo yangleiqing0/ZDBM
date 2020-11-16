@@ -3,7 +3,7 @@ import time
 from Common.configure import *
 
 
-class GetLicense:
+class Linux:
 
     def __init__(self, key=None):
         self.key = key
@@ -48,11 +48,20 @@ class GetLicense:
         pass
 
     def linux_mkdir(self, dir):
-        self.ssh.exec_command('mkdir -p %s' % dir)
+        self.linux_ssh_cmd('mkdir -p %s' % dir)
 
-    def linux_command(self, com, ip=IP, port=SSH_PORT, password=ROOT_PASSWORD, username=ROOT_NAME):
+    def connect(self, ip=IP, port=SSH_PORT, password=ROOT_PASSWORD, username=ROOT_NAME):
         self.ssh.connect(ip, port=port, username=username, password=password)
         print("连接ssh:", ip, port, password)
+
+    def linux_tar(self, target, c="xzvf"):
+        self.linux_ssh_cmd('tar -{} {}'.format(c, target))
+
+    def linux_echo(self, content, target, cover=True):
+        cover = [">>", ">"][cover]
+        self.linux_ssh_cmd("echo '{}' {} {}".format(content, cover, target))
+
+    def linux_ssh_cmd(self, com):
         print("com命令:", com)
         try:
             ssh_stdin, ssh_stdout, ssh_stderr = self.ssh.exec_command(com)
@@ -60,24 +69,9 @@ class GetLicense:
             errs = ssh_stderr.readlines()
             for s in stout:
                 print("ssh_stdout:", s)
-            for err in errs:
-                print("error: ", err)
-        except Exception as e:
-            print(e)
 
-    def linux_command_return(self, com, ip=IP, port=SSH_PORT, password=O_PWD, username=O_USER):
-        print("连接ssh:", ip, port, password)
-        print("com命令:", com)
-        self.ssh.connect(ip, port=port, username=username, password=password)
-
-        try:
-            ssh_stdin, ssh_stdout, ssh_stderr = self.ssh.exec_command(com)
-            stout = ssh_stdout.readlines()
-            errs = ssh_stderr.readlines()
-            # for s in stout:
-            #     print("ssh_stdout:", s)
             if stout:
-                return stout
+                return ",".join(stout)[:2000]
             for err in errs:
                 print("error: ", err)
             if errs:
@@ -85,6 +79,15 @@ class GetLicense:
         except Exception as e:
             print(e)
             return "{}".format(e)
+
+    def linux_command(self, com, ip=IP, port=SSH_PORT, password=ROOT_PASSWORD, username=ROOT_NAME):
+        self.connect(ip, port, password, username)
+        return self.linux_ssh_cmd(com)
+
+    def linux_command_return(self, com, ip=IP, port=SSH_PORT, password=O_PWD, username=O_USER):
+        self.connect(ip, port, password, username)
+        return self.linux_ssh_cmd(com)
+
 
     def get_result(self, com, ip=IP, port=SSH_PORT, password=ROOT_PASSWORD, username=ROOT_NAME):
         self.ssh.connect(ip, port=port, username=username, password=password)
@@ -118,11 +121,15 @@ class GetLicense:
         raise TimeoutError
 
     def linux_oracle(self, sql, sid, ip=IP):
+        self.start_listener()
         cmd = 'echo "{};\n exit" > /home/oracle/script.sql &&source /home/oracle/.bash_profile ' \
               '&& export ORACLE_SID={}&&sqlplus / as sysdba @/home/oracle/script.sql'.format(sql, sid)
         result = self.linux_command_return(cmd, ip=ip)
         return result
 
+    def start_listener(self):
+        self.linux_command("su - oracle -c 'lsnrctl start'")
+
 
 if __name__ == '__main__':
-    GetLicense().linux_mkdir('/home/oracle/zdbm/vJ6eH4MlXanKO1jN')
+    Linux().linux_mkdir('/home/oracle/zdbm/vJ6eH4MlXanKO1jN')

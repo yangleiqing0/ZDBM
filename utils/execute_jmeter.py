@@ -1,5 +1,5 @@
 from utils.exec_wins import con_wins
-from Common.configure import TEST_REPORT_TXT_NAME
+from Common.configure import TEST_REPORT_TXT_NAME, ZDBM_VERSION, IP
 
 Desk = r"C:\Users\yl\Desktop"
 TarFolder = Desk + r'\reports'
@@ -23,7 +23,7 @@ def clear_env():
 
 def start():
     clear_env()
-    command = r"jmeter -n -t {}\ZDBM接口测试.jmx -l {}\{} -e -o {}\http".format(Desk, TarFolder, ResultName, TarFolder)
+    command = r"jmeter -Jzdbm_ip={} -n -t {}\jmeter\ZDBM接口测试-v{}.jmx -l {}\{} -e -o {}\http".format(IP, Desk, ZDBM_VERSION, TarFolder, ResultName, TarFolder)
     con_wins(command)
 
 

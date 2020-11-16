@@ -26,7 +26,7 @@ class Driver:
     def install_all():
         # ComJenkins().build_job()    # 触发jenkins自动打包
         Initialize().install_zdbm()   # 自动进行zdbm预安装和安装
-        InstallOracle().install_oracle()   # 自动从12.10将oracle包scp到目标服务器的/u01
+        # InstallOracle().install_oracle()   # 自动从12.10将oracle包scp到目标服务器的/u01
 
     def get_data(self):
         ClearData().clear_xlsx()
@@ -37,9 +37,11 @@ class Driver:
             book = xlrd.open_workbook(table)
             for s in range((len(book.sheets()))):
                 sheet = book.sheets()[s]
-                for i in range(28, 29):
+                for i in range(76, 77):
                 # for i in range(1, sheet.nrows):
                     lis = sheet.row_values(i)
+                    if lis[10]:
+                        lis = sheet.row_values(int(lis[10])-1)
                     print("第{}次，参数为{}".format(i, lis))
                     print(lis[5])
                     lis[6] = lis[6].split(',')

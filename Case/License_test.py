@@ -1,7 +1,7 @@
 from Common.Request_method import RequestMethod
 from Common.rand_name import RangName
 from Common.connect_mysql import ConnMysql
-from Common.get_license import GetLicense
+from Common.get_license import Linux
 
 
 class LicenseTest:
@@ -41,7 +41,7 @@ class LicenseTest:
         if lice == '获取':
             key = LicenseTest({'request_method': 'get'}).test_license_key_zdbm_license_key()['actualresult']
             key = key.split('\n')
-            lice = str(GetLicense(key).write_key())[2:-1]
+            lice = str(Linux(key).write_key())[2:-1]
         print("lice:", lice)
         data = '{"license":"%s"}' % lice
         del_sql = 'update zdbm_license_infos set license=" " where id=1'

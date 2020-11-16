@@ -102,5 +102,5 @@ class ClearEnv:
 
 
 if __name__ == "__main__":
-    ClearEnv("192.168.12.223").login()
+    ClearEnv("192.168.12.206").login()
 

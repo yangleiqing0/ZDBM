@@ -13,7 +13,7 @@ class GetParams:
         print(self.lis, self.params_dict, type(self.params_dict))
         lis = self.lis.split('\n')
         for l in lis:
-            param = l.split('=')
+            param = l.replace(" ", "").split('=')
             if param[0] != '':
                 print(param[1])
                 if '$' in param[1]:

@@ -5,22 +5,24 @@ from Common.configure import *
 
 class Report:
 
-    def get_format(self,wd, option):
+    def get_format(self, wd, option):
         return wd.add_format(option)
+
     # 设置居中
 
-    def get_format_center(self,wb,num=1, color='block'):
+    def get_format_center(self, wb, num=1, color='block'):
         # block  蓝色
-        return wb.add_format({'align': 'center','valign': 'vcenter','border':num,'text_wrap':1, 'color': color})
+        return wb.add_format({'align': 'center', 'valign': 'vcenter', 'border': num, 'text_wrap': 1, 'color': color})
 
-    def set_border_(self,wb, num=1):
+    def set_border_(self, wb, num=1):
         return wb.add_format({}).set_border(num)
+
     # 写数据
 
-    def write_center(self,worksheet, cl, data, wb, color='block'):
+    def write_center(self, worksheet, cl, data, wb, color='block'):
         return worksheet.write(cl, data, self.get_format_center(wb, color=color))
 
-    def init(self,data,data1,score):
+    def init(self, data, data1, score):
         self.workbook = xlsxwriter.Workbook('../Data/%s.xlsx' % TEST_REPORT_EXCEL_NAME)
         # print(self.workbook)
         self.worksheet = self.workbook.add_worksheet("%s总况" % TEST_TITLE_NAME)
@@ -60,7 +62,6 @@ class Report:
         self.write_center(self.worksheet, "B5", '运行环境', self.workbook)
         self.write_center(self.worksheet, "B6", '测试网络', self.workbook)
 
-
         self.write_center(self.worksheet, "C3", data['test_name'], self.workbook)
         self.write_center(self.worksheet, "C4", data['test_version'], self.workbook)
         self.write_center(self.worksheet, "C5", data['test_pl'], self.workbook)
@@ -78,13 +79,12 @@ class Report:
 
         self.write_center(self.worksheet, "F3", "分数", self.workbook)
 
-
-        self.worksheet.merge_range('F4:F6', '%s'%score, self.get_format_center(self.workbook))
+        self.worksheet.merge_range('F4:F6', '%s' % score, self.get_format_center(self.workbook))
 
         self.pie(self.workbook, self.worksheet)
 
-     # 生成饼形图
-    def pie(self,wob, wos):
+    # 生成饼形图
+    def pie(self, wob, wos):
         chart1 = wob.add_chart({'type': 'pie'})
         chart1.add_series({
             'name': '%s统计' % TEST_TITLE_NAME,
@@ -95,7 +95,7 @@ class Report:
         chart1.set_style(10)
         wos.insert_chart('A9', chart1, {'x_offset': 25, 'y_offset': 10})
 
-    def test_detail(self,data,tmp,row):
+    def test_detail(self, data, tmp, row):
 
         # 设置列行的宽高
         self.worksheet2.set_column("A:A", 16)
@@ -107,40 +107,40 @@ class Report:
         self.worksheet2.set_column("G:G", 20)
         self.worksheet2.set_column("H:H", 20)
         self.worksheet2.set_column("I:I", 11)
-        for i in range(1,(row+2)):
+        for i in range(1, (row + 2)):
             self.worksheet2.set_row(i, 40)
-        self.worksheet2.merge_range('A1:I1', '测试详情', self.get_format(self.workbook, {'bold': True, 'font_size': 18 ,'align': 'center','valign': 'vcenter','bg_color': '#70DB93', 'font_color': '#ffffff'}))
+        self.worksheet2.merge_range('A1:I1', '测试详情', self.get_format(self.workbook,
+                                                                     {'bold': True, 'font_size': 18, 'align': 'center',
+                                                                      'valign': 'vcenter', 'bg_color': '#70DB93',
+                                                                      'font_color': '#ffffff'}))
         self.write_center(self.worksheet2, "A2", '模块名', self.workbook)
-        self.write_center(self.worksheet2,"B2", '类名', self.workbook)
-        self.write_center(self.worksheet2,"C2", '方法名', self.workbook)
+        self.write_center(self.worksheet2, "B2", '类名', self.workbook)
+        self.write_center(self.worksheet2, "C2", '方法名', self.workbook)
         self.write_center(self.worksheet2, "D2", '用例描述', self.workbook)
-        self.write_center(self.worksheet2,"E2", '预期结果', self.workbook)
-        self.write_center(self.worksheet2,"F2", '实际值', self.workbook)
-        self.write_center(self.worksheet2,"G2", '数据库原值', self.workbook)
-        self.write_center(self.worksheet2,"H2", '数据库现值', self.workbook)
+        self.write_center(self.worksheet2, "E2", '预期结果', self.workbook)
+        self.write_center(self.worksheet2, "F2", '实际值', self.workbook)
+        self.write_center(self.worksheet2, "G2", '数据库原值', self.workbook)
+        self.write_center(self.worksheet2, "H2", '数据库现值', self.workbook)
         self.write_center(self.worksheet2, "I2", '测试结果', self.workbook)
 
-        temp = tmp+2
+        temp = tmp + 2
         for item in data:
-            self.write_center(self.worksheet2,"A"+str(temp), item["t_pkg"], self.workbook)
-            self.write_center(self.worksheet2,"B"+str(temp), item["t_object"], self.workbook)
-            self.write_center(self.worksheet2,"C"+str(temp), item["t_method"], self.workbook)
-            self.write_center(self.worksheet2,"D"+str(temp), item["t_description"], self.workbook)
-            self.write_center(self.worksheet2,"E"+str(temp), item["t_hope"], self.workbook)
-            self.write_center(self.worksheet2,"F"+str(temp), item["t_actual"], self.workbook)
-            self.write_center(self.worksheet2,"G"+str(temp), item["old_database_value"], self.workbook)
+            self.write_center(self.worksheet2, "A" + str(temp), item["t_pkg"], self.workbook)
+            self.write_center(self.worksheet2, "B" + str(temp), item["t_object"], self.workbook)
+            self.write_center(self.worksheet2, "C" + str(temp), item["t_method"], self.workbook)
+            self.write_center(self.worksheet2, "D" + str(temp), item["t_description"], self.workbook)
+            self.write_center(self.worksheet2, "E" + str(temp), item["t_hope"], self.workbook)
+            self.write_center(self.worksheet2, "F" + str(temp), item["t_actual"], self.workbook)
+            self.write_center(self.worksheet2, "G" + str(temp), item["old_database_value"], self.workbook)
             self.write_center(self.worksheet2, "H" + str(temp), item["new_database_value"], self.workbook)
             if item["t_result"] != "测试成功":
                 self.write_center(self.worksheet2, "I" + str(temp), item["t_result"], self.workbook, color='red')
             else:
                 self.write_center(self.worksheet2, "I" + str(temp), item["t_result"], self.workbook)
-            temp = temp-1
+            temp = temp - 1
 
-        self.worksheet.hide_gridlines(2)    # 隐藏网格线
-        self.worksheet2.hide_gridlines(2)   # 隐藏网格线
+        self.worksheet.hide_gridlines(2)  # 隐藏网格线
+        self.worksheet2.hide_gridlines(2)  # 隐藏网格线
 
     def __del__(self):
         self.workbook.close()
-
-
-

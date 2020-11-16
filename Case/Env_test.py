@@ -66,7 +66,7 @@ class EnvTest:
         data = None
         if self.params['envType'] == 'SOURCE':
             data = '{"envName": "%s","envType": "%s","ip": "%s","port": %s,"username": "%s","password": "%s",' \
-                   '"toolPath": "%s","hostType": "%s/Vmware/KVM"}' % \
+                   '"toolPath": "%s","hostType": "%s/Vmware/KVM", "useSsh": true}' % \
                    (
                      self.params['envName'], self.params['envType'],
                      self.params['ip'], self.params['port'],
@@ -75,6 +75,7 @@ class EnvTest:
             if 'clusterHome' in self.params:
                 data = """
                 {
+                "useSsh": true,
                 "envName":"%s",
                 "clusterHome":"%s",
                 "ip":"%s",
@@ -101,7 +102,8 @@ class EnvTest:
                 "username": "%s",
                 "password": "%s",
                 "toolPath": "%s",
-                "asMdb": %s
+                "asMdb": %s,
+                "useSsh": true
             }
             """ % \
                    (
@@ -124,17 +126,26 @@ class EnvTest:
             content = RequestMethod().to_requests(self.request_method, 'env/add', data=data)
             result = json.loads(content)
             print(result['data']['env'])
-        if 'm' not in self.params['envName'] :
+        if 'm' not in self.params['envName']:
+            software_id = result['data']['env']['softwares'][0]['id']
             NEED_PARAMETER.update({
                                self.params['envName'] + '_node_id': result['data']['env']['nodes'][0]['id'],
                                self.params['envName'] + '_id': result['data']['env']['id'],
-                               self.params['envName'] + '_softwares_id': result['data']['env']['softwares'][0]['id']
+                               self.params['envName'] + '_softwares_id': software_id
                                })
-            for l in range(len(result['data']['env']['softwares'][0]['database'])):
-                NEED_PARAMETER.update(
-                    {self.params['envName'] + '_' + result['data']['env']['softwares'][0]['database'][l]['dbName'] +
-                     '_database_id': result['data']['env']['softwares'][0]['database'][l]['id']}
-                )
+            dbs_sql = 'select db_name, id from zdbm_orcl_env_databases where software_id={}'.format(software_id)
+            dbs = self.mysql.select_mysql_new(dbs_sql, one=False, ac_re=True)
+            for db in dbs:
+                if db:
+                    db_name, db_id = db
+                    NEED_PARAMETER.update(
+                            {self.params['envName'] + '_' + db_name + '_database_id': db_id}
+                        )
+            # for l in range(len(result['data']['env']['softwares'][0]['database'])):
+            #     NEED_PARAMETER.update(
+            #         {self.params['envName'] + '_' + result['data']['env']['softwares'][0]['database'][l]['dbName'] +
+            #          '_database_id': result['data']['env']['softwares'][0]['database'][l]['id']}
+            #     )
         else:
             NEED_PARAMETER.update(
                 {
@@ -246,6 +257,10 @@ class EnvTest:
         self.mysql.operate_mysql(del_sql)
         self.mysql.operate_mysql(update_count_sql)
         return env_id
+
+    def test_env_clear(self):
+        Ce(IP).login()
+        return {'actualresult': 0}
 
 
 if __name__ == '__main__':

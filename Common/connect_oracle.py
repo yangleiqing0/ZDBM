@@ -11,6 +11,7 @@ class ConnOracle:
         print('要连接的路径:', to, '用户:', user, '密码: ', pwd, "mode:", mode)
         if mode is None:
             self.conn = cx_Oracle.connect(user, pwd, to)  # 连接数据库
+            cx_Oracle.makedsn("127.0.0,1", 1521, "dw")
         else:
             self.conn = cx_Oracle.connect(user, pwd, to, mode)  # 连接数据库
         self.c = self.conn.cursor()  # 获取cursor
