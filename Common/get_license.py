@@ -51,8 +51,8 @@ class Linux:
         self.linux_ssh_cmd('mkdir -p %s' % dir)
 
     def connect(self, ip=IP, port=SSH_PORT, password=ROOT_PASSWORD, username=ROOT_NAME):
-        self.ssh.connect(ip, port=port, username=username, password=password)
         print("连接ssh:", ip, port, password)
+        self.ssh.connect(ip, port=port, username=username, password=password)
 
     def linux_tar(self, target, c="xzvf"):
         self.linux_ssh_cmd('tar -{} {}'.format(c, target))
@@ -86,8 +86,8 @@ class Linux:
 
     def linux_command_return(self, com, ip=IP, port=SSH_PORT, password=O_PWD, username=O_USER):
         self.connect(ip, port, password, username)
+        print("连接, ip, port, password, username", ip, port, password, username)
         return self.linux_ssh_cmd(com)
-
 
     def get_result(self, com, ip=IP, port=SSH_PORT, password=ROOT_PASSWORD, username=ROOT_NAME):
         self.ssh.connect(ip, port=port, username=username, password=password)
@@ -129,6 +129,21 @@ class Linux:
 
     def start_listener(self):
         self.linux_command("su - oracle -c 'lsnrctl start'")
+
+    def kill_sbt(self):
+        self.linux_ssh_cmd("ps -ef | grep sbt-server | grep -v grep  | awk '{ print $2}' | xargs kill -9")
+
+    def lsnrctl_start(self):
+        self.linux_ssh_cmd("export ORACLE_HOME=/u01/app/oracle/product/19.3.0.0/dbhome_19.3.0.0;"
+                           "$ORACLE_HOME/bin/lsnrctl start")
+        self.linux_ssh_cmd("export ORACLE_HOME=/u01/app/oracle/product/18.3.0.0/dbhome_18.3.0.0;"
+                           "$ORACLE_HOME/bin/lsnrctl start")
+        self.linux_ssh_cmd("export ORACLE_HOME=/u01/app/oracle/product/12.2.0.1/dbhome_12.2.0.1;"
+                           "$ORACLE_HOME/bin/lsnrctl start")
+        self.linux_ssh_cmd("export ORACLE_HOME=/u01/app/oracle/product/12.1.0.2/dbhome_12.1.0.2;"
+                           "$ORACLE_HOME/bin/lsnrctl start")
+        self.linux_ssh_cmd("export ORACLE_HOME=/u01/app/oracle/product/11.2.0.4/dbhome_11.2.0.4;"
+                           "$ORACLE_HOME/bin/lsnrctl start")
 
 
 if __name__ == '__main__':

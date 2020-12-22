@@ -1,3 +1,4 @@
+import time
 from Common.Auto_install import AutoInstall
 from Common.connect_mysql import ConnMysql
 from Common.get_license import Linux
@@ -25,6 +26,7 @@ class Initialize:
               '"$2a$10$j0c7si1lQucFAUXIGysyWel4GB0RpEy3maVz2bW.7u5zuhy5JfaaS",NULL,"1@qq.com",NULL,1,0) '
         ConnMysql().operate_mysql(sql)
         print('预设置用户yanglei')
+        time.sleep(15)
 
 
 if __name__ == '__main__':

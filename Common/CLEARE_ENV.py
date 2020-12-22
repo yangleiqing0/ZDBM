@@ -3,6 +3,7 @@ import json
 import time
 from Common.configure import *
 from Common.connect_mysql import ConnMysql
+from Common.get_license import Linux
 requests.packages.urllib3.disable_warnings()
 
 
@@ -60,6 +61,7 @@ class ClearEnv:
         envs = self.session.get(url, headers=self.headers).text
         envs = json.loads(envs)['data']['envs']
         for env in envs:
+            self.kill_sbt()
             self.enable_env(env['id'])
             print('已执行关闭环境id：%s' % env['id'])
             self.delete_env(env['id'])
@@ -99,6 +101,11 @@ class ClearEnv:
             if is_online is False:
                 return env['id'], is_online
         return 0, True
+
+    def kill_sbt(self):
+        linux = Linux()
+        linux.connect(self.SERVER_IP, "22", "root1234", "root")
+        linux.kill_sbt()
 
 
 if __name__ == "__main__":

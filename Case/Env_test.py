@@ -5,7 +5,7 @@ from Common.Request_method import RequestMethod
 from Common.connect_mysql import ConnMysql
 from Common.configure import *
 from Common.CLEARE_ENV import ClearEnv as Ce
-from utils import wait_for
+from Common.get_license import Linux
 from Case.DeleteMySql import DeleteWords
 
 
@@ -64,6 +64,9 @@ class EnvTest:
         # 添加环境
         hostType = "物理机".encode('utf-8').decode('latin1')
         data = None
+        linux = Linux()
+        linux.connect(self.params['ip'], "22", "oracle", "oracle")
+        linux.lsnrctl_start()
         if self.params['envType'] == 'SOURCE':
             data = '{"envName": "%s","envType": "%s","ip": "%s","port": %s,"username": "%s","password": "%s",' \
                    '"toolPath": "%s","hostType": "%s/Vmware/KVM", "useSsh": true}' % \
@@ -195,8 +198,10 @@ class EnvTest:
         sql = 'select job_status from zdbm_jobs where env_id=%s order by id desc limit 1' % (NEED_PARAMETER[self.params['envName'] + '_id'])
         content_sql = 'select err_msg from zdbm_jobs where env_id="%s" order by id desc limit 1' % (NEED_PARAMETER[self.params['envName'] + '_id'])
         print(sql, content_sql)
-        archive_time = 10 * 60 # 5分钟
-        times = 10*60
+        # archive_time = 10 * 60 # 5分钟
+        archive_time = 10000 * 60
+        times = archive_time
+        total_times = archive_time
         status_sql = 'select count(*) from zdbm_orcl_source_db_snapshots where source_id="%s"' % (NEED_PARAMETER[self.params['envName'] + '_' + self.params['dbName'] + '_source_id'])
         time.sleep(2)
         while 1:
@@ -204,7 +209,7 @@ class EnvTest:
                 result = self.mysql.select_mysql(sql)[0]
             except AttributeError as e:
                 result = self.mysql.select_mysql(sql)[0]
-            print("添加源库状态：", result, '时间过去：', 600-archive_time, '秒')
+            print("添加源库状态：", result, '时间过去：', total_times-archive_time, '秒')
             archive_time -= 2
             if result == 'PROCESSING':
                 time.sleep(2)
@@ -216,7 +221,7 @@ class EnvTest:
                 time.sleep(2)
                 while times > 0:
                     status = self.mysql.select_mysql(status_sql)[0]
-                    print("归档状态：", status, '时间过去：', 600-times, '秒')
+                    print("归档状态：", status, '时间过去：', total_times-times, '秒')
                     if status == 1:
                         break
                     times -= 2

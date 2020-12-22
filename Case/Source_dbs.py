@@ -159,6 +159,26 @@ class SourceDbs:
             'new_database_value': 'mysql_value:{}'.format(new_status), 'database_assert_method': True
         }
 
+    def test_sdb_delete(self):
+        linux = Linux()
+        linux.connect()
+        linux.kill_sbt()
+        source_id = NEED_PARAMETER[self.params['envName'] + '_' + self.params['dbName'] + '_source_id']
+        content = RequestMethod().to_requests(self.request_method, "source/delete/{}".format(source_id))
+        return {
+            'actualresult': content
+        }
+
+    def test_sdb_link(self):
+        source_id = NEED_PARAMETER[self.params['envName'] + '_' + self.params['dbName'] + '_source_id']
+        data = json.dumps({
+            "isEnable": False
+        })
+        content = RequestMethod().to_requests(self.request_method, "source/enable/{}".format(source_id), data=data)
+        return {
+            'actualresult': content
+        }
+
 
 if __name__ == '__main__':
     SourceDbs({"request_method": "put", "ip": '192.168.12.1', "dbName": "auto"}).test_increment_check()

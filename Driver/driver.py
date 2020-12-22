@@ -32,13 +32,18 @@ class Driver:
         ClearData().clear_xlsx()
         # self.install_all()
         # print(self.tables)
+        # while True:
+        #     book = xlrd.open_workbook(self.tables[0])
+        #     sheet = book.sheets()[0]
+        #     for l in range(1):
         for table in self.tables:
             print(table)
             book = xlrd.open_workbook(table)
             for s in range((len(book.sheets()))):
                 sheet = book.sheets()[s]
-                for i in range(76, 77):
-                # for i in range(1, sheet.nrows):
+                # for i in range(76, 77):
+                for i in range(1, sheet.nrows):
+                # for i in [77, 78, 53]:
                     lis = sheet.row_values(i)
                     if lis[10]:
                         lis = sheet.row_values(int(lis[10])-1)

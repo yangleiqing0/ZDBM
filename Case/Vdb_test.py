@@ -93,11 +93,12 @@ class VdbTest:
         })
         vdb_status_sql = 'select open_mode from zdbm_orcl_virtual_dbs where id=%s' % \
                          NEED_PARAMETER[self.params['envName'] + '_' + self.params['dbName'] + '_vdb_id']
-        archive_time = 5 * 60  # 5分钟
+        archive_time = 10 * 60  # 10分钟
+        total_time = archive_time
         time.sleep(2)
         while 1:
             vdb_status = ConnMysql().select_mysql(vdb_status_sql)[0]
-            print(self.params['vdbName'], 'vdb状态：', vdb_status, '时间过去：', 300-archive_time, '秒')
+            print(self.params['vdbName'], 'vdb状态：', vdb_status, '时间过去：', total_time-archive_time, '秒')
             if vdb_status == 'READ WRITE':
                 break
             if archive_time == 0:
@@ -268,7 +269,7 @@ class VdbTest:
             fields={
                 # 这里根据服务器需要的参数格式进行修改
 
-                'file': (filename, open(r'C:\Users\yl\Desktop\{}'.format(filename), "rb"), "text/x-sh")
+                'file': (filename, open(r'../Data/{}'.format(filename), "rb"), "text/x-sh")
             }
         )
         headers = {"Content-Type":  multipart_encoder.content_type}

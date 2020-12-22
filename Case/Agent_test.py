@@ -75,6 +75,10 @@ cluster_home=
     def test_agent_env_add(self):
         agent_env_id = NEED_PARAMETER[self.params['ip'] + "_id"]
         print("agent_id", agent_env_id)
+        linux = Linux()
+        linux.connect(self.params['ip'], "22", "oracle", "oracle")
+        linux.lsnrctl_start()
+
         data = '{' + """"id": {0},
                     "envName": "{envName}",
                     "envType": "{envType}",

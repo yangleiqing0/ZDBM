@@ -24,7 +24,7 @@ class AutoInstall:
             'sed -i "35c StrictHostKeyChecking no"   /etc/ssh/ssh_config &&  sed -i "35s/^/    &/"    '
             '/etc/ssh/ssh_config')
         print('将/etc/ssh/ssh_config设置为不校验key成功')
-        Linux().linux_command('cd /opt && rm -rf auto_install*.sh %s ' % ZDBM_PACKAGE_NAME_TAR)
+        Linux().linux_command('cd /opt && rm -rf /u01/app11204.tar.gz && rm -rf auto_install*.sh %s ' % ZDBM_PACKAGE_NAME_TAR)
         print('清除/opt下的文件成功')
         time.sleep(1)
         Linux().linux_command('echo "" > /root/.ssh/known_hosts && sshpass  -p %s scp -P %s -o '
@@ -49,8 +49,31 @@ class AutoInstall:
                 Install_Data, ZDBM_PACKAGE_NAME_TAR, IP, SSH_PORT, ROOT_PASSWORD))
         print('预安装ZDBM所需软件结束')
         Linux().wait_host_start()
-        # Linux().linux_command('echo nameserver 192.168.0.1 > /etc/resolv.conf')
-        # print("设置DNS为192.168.0.1成功")
+        Linux().linux_command('echo nameserver 192.168.0.1 > /etc/resolv.conf')
+        if IP == "192.168.12.206":
+            cmd = """TYPE="Ethernet"
+PROXY_METHOD="none"
+BROWSER_ONLY="no"
+BOOTPROTO="none"
+DEFROUTE="yes"
+IPV4_FAILURE_FATAL="no"
+IPV6INIT="yes"
+IPV6_AUTOCONF="yes"
+IPV6_DEFROUTE="yes"
+IPV6_FAILURE_FATAL="no"
+IPV6_ADDR_GEN_MODE="stable-privacy"
+NAME="eth0"
+UUID="1be3ef9c-950f-4564-934f-59edf345ca8f"
+DEVICE="eth0"
+ONBOOT="yes"
+MACADDR="random"
+IPADDR="192.168.12.206"
+PREFIX="16"
+GATEWAY="192.168.0.1"
+DNS1="192.168.0.1"
+IPV6_PRIVACY=no"""
+            Linux().linux_command('echo """{}""" > /etc/sysconfig/network-scripts/ifcfg-eth0'.format(cmd))
+        print("设置DNS为192.168.0.1成功")
         time.sleep(100)
         print('开始进行安装ZDBM')
         if Install_Data == 'auto_install_2140.sh':

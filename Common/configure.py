@@ -1,6 +1,5 @@
 # 所有文件的参数配置
-NEED_PARAMETER = {'192.168.12.1_id': '11', '192.168.12.206_id': '6', '192.168.12.211_id': '12', 't12.1_node_id': 70, 't12.1_id': 1180, 't12.1_softwares_id': 92, 't12.1_yang_database_id': 130, 't12.1_auto_database_id': 131, 't12.1_orcl_database_id': 132, 'm12.206_node_id': 71, 'm12.206_id': 1181, 'm12.206_softwares_id': 93, 'm12.211_node_id': 72, 'm12.211_id': 1182, 'm12.211_softwares_id': 94, 't12.1_yang_source_id': 56, 't12.1_auto_source_id': 57, 'increment_source_id': 57, 'vdb_script_name': 'V2QBCH7D8YGB437J.sh', 'vdb_script_file_name': 'test.sh', 't12.1_auto_vdb_id': 5179, 't12.1_yang_vdb_id': 5180, 'vdb_auto_name': 'vdb_y0ou', 'snapshot_auto_id': 33, 'vdb_auto_id': 5179, 'vdb_yang_name': 'vdb_C2ul', 'snapshot_yang_id': 34, 'vdb_yang_id': 5180}
-
+NEED_PARAMETER = {'192.168.12.1_id': '4', '192.168.12.206_id': '2', '192.168.12.211_id': '3', 't12.1_node_id': 82, 't12.1_id': 80, 't12.1_softwares_id': 65, 't12.1_yang_database_id': 4, 't12.1_auto_database_id': 71, 't12.1_orcl_database_id': 6, 'm12.206_node_id': 97, 'm12.206_id': 95, 'm12.206_softwares_id': 81, 'm12.211_node_id': 3, 'm12.211_id': 3, 'm12.211_softwares_id': 3, 't12.1_yang_source_id': 1, 't12.1_auto_source_id': 257, 'increment_source_id': 2, 'vdb_script_name': 'KC8T89B02CWR36ZC.sh', 'vdb_script_file_name': 'test.sh', 't12.1_auto_vdb_id': 1, 't12.1_yang_vdb_id': 2, 'vdb_auto_name': 'vdb_QVeP', 'snapshot_auto_id': 3, 'vdb_auto_id': 1, 'vdb_yang_name': 'vdb_wsOM', 'snapshot_yang_id': 4, 'vdb_yang_id': 2}
 
 TEST_REPORT_EXCEL_NAME = 'ZDBM_test_report'
 TEST_REPORT_TXT_NAME = 'ZDBM_test_result'
@@ -57,7 +56,7 @@ ZDBM_PACKAGE_PWD = 'root1234'
 # ZDBM_PACKAGE_NAME = '/soft/zdbm/zdbm-package/v{}/zdbm*.t'.format(ZDBM_VERSION)
 # ZDBM_PACKAGE_NAME = '/var/lib/jenkins/workspace/zdbm_auto_page/zdbm-*.tar.gz'
 # ZDBM_PACKAGE_NAME = '/var/lib/jenkins/workspace/Zdbm2.0/zdbm-*.tar.gz'
-ZDBM_PACKAGE_NAME = '/soft/zdbm/zdbm-package/v{}/zdbm-202010291749-v2.1.6-rc1.tar.gz'.format(ZDBM_VERSION)
+ZDBM_PACKAGE_NAME = '/soft/zdbm/zdbm-package/v{}/zdbm-202011251703-v2.1.6-wanwei.tar.gz'.format(ZDBM_VERSION)
 ZDBM_PACKAGE_NAME_TAR = ZDBM_PACKAGE_NAME.split('/')[-1]
 ZDBM_AGENT_NAME = 'zdbm-client-agent-rc1.tar.gz'
 ZDBM_AGENT_PATH = '/soft/zdbm/zdbm-package/v{}/{}'.format(ZDBM_VERSION, ZDBM_AGENT_NAME)
